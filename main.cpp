@@ -7,6 +7,7 @@
 #include "fitness.h"
 
 const int GENERATION_COUNT = 500;
+
 void runEvolution()
 {
 	srand(time(NULL));

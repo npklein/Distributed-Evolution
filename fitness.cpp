@@ -3,6 +3,8 @@
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
+#include <iostream>
+#include <fstream>
 
 double(*function)(double*);
 double min;
@@ -77,11 +79,13 @@ double A[30][30] =
 
 double FPGetValue(double * genome)
 {
+	
 	double Ai, Bi, sum;
 	sum = 0;
 	
 	for (int i = 0; i < PROBLEM_DIMENSION; ++i)
 	{
+		std::cout << genome[j];
 		Ai = 0;
 		Bi = 0;
 		for (int j = 0; j < PROBLEM_DIMENSION; ++j)
@@ -89,9 +93,10 @@ double FPGetValue(double * genome)
 			Ai += A[i][j] * std::sin(a[j]) + B[i][j] * std::cos(a[j]);
 			Bi += A[i][j] * std::sin(genome[j]) + B[i][j] * std::cos(genome[j]);
 		}
+		
 		sum += std::pow(Ai-Bi, 2);
+		
 	}
-
 	return sum;
 }
 

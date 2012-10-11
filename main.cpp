@@ -23,6 +23,8 @@ void runEvolution()
 
 	std::ofstream outputFile;
 	outputFile.open("log.txt");
+	
+	// column headers of output 
 	outputFile << "fitness \t sumFitness / ca \t e \t ca \t cu \t b \t r \t bred[0] \t bred[1] "
 				  "\t bred[2] \t bred[3] \t killed[0] \t killed[1] \t killed[2] \t killed[3] \t " 
 				  "cupidGenome[0] / cu \t cupidGenome[1] / cu \t cupidGenome[2] / cu \t "
@@ -34,7 +36,6 @@ void runEvolution()
 	
 
 	
-	
 	for(int i = 0; i < GENERATION_COUNT; ++i)
 	{
 		std::cout << i << std::endl;
@@ -42,7 +43,7 @@ void runEvolution()
 
 		cupids.clear();
 		reapers.clear();
-
+		
 		for (int j = 0; j < GRID_SIZE; ++j)
 		{
 			for (int k = 0; k < GRID_SIZE; ++k)
@@ -81,6 +82,7 @@ void runEvolution()
 				}
 			}
 		}
+		std::cout << "lukt" << std::endl;
 
 		int cs = 0, rs = 0;
 
@@ -104,7 +106,7 @@ void runEvolution()
 		cupids.clear();
 
 		int bred[4] = { 0, 0, 0, 0 };
-		
+
 		while (!cupidsQueue.empty())
 		{
 			while (!cupidsQueue.empty())

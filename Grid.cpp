@@ -1,17 +1,20 @@
 #include "Grid.h"
 #include <cstdlib>
 #include <cmath>
-
+#include <iostream>
+#include <fstream>
 
 
 Grid::Grid(void)
 {
-	for (int i = 0; i < GRID_SIZE; ++i)
+	// fill for half grid - quarter grid till half grid + quarter grid on both x and y axis
+	// for 100x100 grid this means that square 25-75 gets filled
+	
+	for (int i = (GRID_SIZE/2)-(GRID_SIZE/4); i < (GRID_SIZE/2)+(GRID_SIZE/4); ++i)
 	{
-		for (int j = 0; j < GRID_SIZE; ++j)
+		for (int j = (GRID_SIZE/2)-(GRID_SIZE/4); j < (GRID_SIZE/2)+(GRID_SIZE/4); ++j)
 		{
-			double choice = (double)rand() / (RAND_MAX + 1.0);
-
+			double choice = (double)rand() / (RAND_MAX + 1.0);			
 			if (choice < spawnBreederProbability)
 			{
 				agents[i][j] = new Breeder();
@@ -32,7 +35,6 @@ Grid::Grid(void)
 			agents[i][j]->RandomizeGenome();
 		}
 	}
-
 	for (int i = -AGENT_ACTION_RADIUS; i <= AGENT_ACTION_RADIUS; ++i)
 	{
 		for (int j = -AGENT_ACTION_RADIUS; j <= AGENT_ACTION_RADIUS; ++j)
@@ -44,7 +46,16 @@ Grid::Grid(void)
 			}
 		}
 	}
-}
+	/*for (int i = 0; i < GRID_SIZE; ++i)
+	{
+		for (int j = 0; j < GRID_SIZE; ++j)
+		{
+			std::cout << "agent " << i << "," << j << ": " << agents[i][j] << std::endl;
+			sleep(0.1);
+		}
+	}*/
+}	
+
 
 
 Grid::~Grid(void)
@@ -63,11 +74,13 @@ Grid::~Grid(void)
 
 void Grid::DoMovement()
 {
+	
 	int edgesToSwap = (int)(GRID_SIZE * GRID_SIZE * edgeSwapProbability);
 
 	int positionFirstX, positionFirstY, type, positionSecondX, positionSecondY;
 	for (int i = 0; i < edgesToSwap; ++i)
 	{
+
 		positionFirstX = (int)((double)rand() / (RAND_MAX + 1.0) * (double) GRID_SIZE);
 		positionFirstY = (int)((double)rand() / (RAND_MAX + 1.0) * (double) GRID_SIZE);
 		type = (int)((double)rand() / (RAND_MAX + 1.0) * 2.0);
@@ -88,7 +101,9 @@ void Grid::DoMovement()
 		Agent* helper = agents[positionFirstX][positionFirstY];
 		agents[positionFirstX][positionFirstY] = agents[positionSecondX][positionSecondY];
 		agents[positionSecondX][positionSecondY] = helper;
+
 	}
+
 }
 
 double Grid::Distance(double x1, double y1, double x2, double y2)

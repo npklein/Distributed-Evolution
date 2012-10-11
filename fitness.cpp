@@ -82,7 +82,7 @@ double FPGetValue(double * genome)
 	
 	double Ai, Bi, sum;
 	sum = 0;
-	
+
 	for (int i = 0; i < PROBLEM_DIMENSION; ++i)
 	{
 		Ai = 0;
@@ -105,8 +105,6 @@ void initializeFitness()
 	{
 		min = FPGetValue(a);
 		function = &FPGetValue;
-		std::cout << min;
-		exit;
 	}
 	else
 	{

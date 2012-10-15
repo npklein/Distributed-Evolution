@@ -8,7 +8,7 @@ class Agent
 {
 public:
 	Agent(void);
-	~Agent(void);
+	virtual ~Agent(void);
 	
 	double GetFitness();
 	int GetAge();

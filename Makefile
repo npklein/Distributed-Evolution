@@ -13,12 +13,14 @@ SRC  = $(SRC1) $(SRC2)
 
 OBJS = $(subst .cpp,.o, $(SRC))
 
-AUX = $(SRC1:.c = .h)
+AUX = $(subst .cpp,.h, $(SRC1))
 
 
 main: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
+$(OBJS): $(SRC) $(AUX)
+	$(CC) $(CFLAGS) -c  $(SRC)
 .PHONY: clean
 clean:
 	rm -f *.o main

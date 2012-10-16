@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const int GRID_SIZE = 1000;
+const int GRID_SIZE = 100;
 const int AGENT_RANGE = 5;
 const int AGENT_ACTION_RADIUS = 5;
 const double edgeSwapProbability = 0.5;
@@ -27,16 +27,16 @@ public:
 	~Grid(void);
 
 	void DoMovement();
-	void GetNeighbourhood(int x, int y, vector<Agent**> & neighbourhood);
+	void GetNeighbourhood(int x, int y, int z, vector<Agent**> & neighbourhood);
 	int GetNeighbourhoodSize();
-	Agent** GetAgent(int x, int y);
+	Agent** GetAgent(int x, int y, int z);
 
 private:
-	Agent* agents[GRID_SIZE][GRID_SIZE];
+	Agent* agents[GRID_SIZE][GRID_SIZE][GRID_SIZE];
 	vector<int> m_xoffset;
 	vector<int> m_yoffset;
-
-	double Distance(double x1, double y1, double x2, double y2);
+	vector<int> m_zoffset;
+	double Distance(double x1, double y1, double z1, double x2, double y2, double z2);
 };
 
 #endif // !GRID_H

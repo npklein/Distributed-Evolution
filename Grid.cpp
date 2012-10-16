@@ -1,7 +1,8 @@
 #include "Grid.h"
 #include <cstdlib>
 #include <cmath>
-
+#include <iostream>
+#include <fstream>
 
 
 Grid::Grid(void)
@@ -10,37 +11,43 @@ Grid::Grid(void)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
 		{
-			double choice = (double)rand() / (RAND_MAX + 1.0);
+			for (int z = 0; z < GRID_SIZE; ++z)
+			{
+				double choice = (double)rand() / (RAND_MAX + 1.0);
 
-			if (choice < spawnBreederProbability)
-			{
-				agents[i][j] = new Breeder();
+				if (choice < spawnBreederProbability)
+				{
+					agents[i][j][z] = new Breeder();
+				}
+				else if (choice < (spawnBreederProbability + spawnCupidProbability))
+				{
+					agents[i][j][z] = new Cupid();
+				}
+				else if (choice < (spawnBreederProbability + spawnCupidProbability + spawnReaperProbability))
+				{
+					agents[i][j][z] = new Reaper();
+				}
+				else
+				{
+					agents[i][j][z] = new CandidateSolution();
+				}
+				agents[i][j][z]->RandomizeGenome();
 			}
-			else if (choice < (spawnBreederProbability + spawnCupidProbability))
-			{
-				agents[i][j] = new Cupid();
-			}
-			else if (choice < (spawnBreederProbability + spawnCupidProbability + spawnReaperProbability))
-			{
-				agents[i][j] = new Reaper();
-			}
-			else
-			{
-				agents[i][j] = new CandidateSolution();
-			}
-
-			agents[i][j]->RandomizeGenome();
 		}
 	}
-
+	
 	for (int i = -AGENT_ACTION_RADIUS; i <= AGENT_ACTION_RADIUS; ++i)
 	{
 		for (int j = -AGENT_ACTION_RADIUS; j <= AGENT_ACTION_RADIUS; ++j)
 		{
-			if (Distance(0, 0, i, j) <= AGENT_ACTION_RADIUS && (i != 0 || j != 0))
+			for (int z = -AGENT_ACTION_RADIUS; z <= AGENT_ACTION_RADIUS; ++z)
 			{
-				m_xoffset.push_back(i);
-				m_yoffset.push_back(j);
+				if (Distance(0, 0, 0, i, j, z) <= AGENT_ACTION_RADIUS && (i != 0 || j != 0 || z != 0))
+				{
+					m_xoffset.push_back(i);
+					m_yoffset.push_back(j);
+					m_zoffset.push_back(z);
+				}
 			}
 		}
 	}
@@ -53,9 +60,12 @@ Grid::~Grid(void)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
 		{
-			if (agents[i][j] != NULL)
+			for (int z = 0; z < GRID_SIZE; ++z)
 			{
-				delete agents[i][j];
+				if (agents[i][j] != NULL)
+				{
+					delete agents[i][j][z];
+				}
 			}
 		}
 	}
@@ -63,37 +73,46 @@ Grid::~Grid(void)
 
 void Grid::DoMovement()
 {
-	int edgesToSwap = (int)(GRID_SIZE * GRID_SIZE * edgeSwapProbability);
+	int edgesToSwap = (int)(GRID_SIZE * GRID_SIZE * GRID_SIZE * edgeSwapProbability);
 
-	int positionFirstX, positionFirstY, type, positionSecondX, positionSecondY;
+	int positionFirstX, positionFirstY, positionFirstZ, type, positionSecondX, positionSecondY, positionSecondZ;
 	for (int i = 0; i < edgesToSwap; ++i)
 	{
 		positionFirstX = (int)((double)rand() / (RAND_MAX + 1.0) * (double) GRID_SIZE);
 		positionFirstY = (int)((double)rand() / (RAND_MAX + 1.0) * (double) GRID_SIZE);
-		type = (int)((double)rand() / (RAND_MAX + 1.0) * 2.0);
-			
+		positionFirstZ = (int)((double)rand() / (RAND_MAX + 1.0) * (double) GRID_SIZE);
+		type = (int)((double)rand() / (RAND_MAX + 1.0) * 3.0);
 		if (type == 0)
 		{
 			//Vertical swap
 			positionSecondX = positionFirstX;
 			positionSecondY = (GRID_SIZE + positionFirstY - 1) % GRID_SIZE;	
+			positionSecondZ = positionFirstZ;
 		}
-		else
+		else if (type == 1)
 		{
 			//Horizontal swap
 			positionSecondX = (GRID_SIZE + positionFirstX - 1) % GRID_SIZE;
-			positionSecondY = positionFirstY;				
+			positionSecondY = positionFirstY;			
+			positionSecondZ = positionFirstZ;
 		}
-			
-		Agent* helper = agents[positionFirstX][positionFirstY];
-		agents[positionFirstX][positionFirstY] = agents[positionSecondX][positionSecondY];
-		agents[positionSecondX][positionSecondY] = helper;
+		else 
+		{
+			//Z plane swap
+			positionSecondX = positionFirstX;
+			positionSecondY = positionFirstY;
+			positionSecondZ = (GRID_SIZE + positionFirstZ - 1) % GRID_SIZE;
+		}
+	
+		Agent* helper = agents[positionFirstX][positionFirstY][positionFirstZ];
+		agents[positionFirstX][positionFirstY][positionFirstZ] = agents[positionSecondX][positionSecondY][positionSecondZ];
+		agents[positionSecondX][positionSecondY][positionSecondZ] = helper;
 	}
 }
 
-double Grid::Distance(double x1, double y1, double x2, double y2)
+double Grid::Distance(double x1, double y1, double z1, double x2, double y2, double z2)
 {
-	return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+	return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2));
 }
 
 int Grid::GetNeighbourhoodSize()
@@ -101,17 +120,17 @@ int Grid::GetNeighbourhoodSize()
 	return m_xoffset.size();
 }
 
-void Grid::GetNeighbourhood(int x, int y, vector<Agent**> & neighbourhood)
+void Grid::GetNeighbourhood(int x, int y, int z, vector<Agent**> & neighbourhood)
 {
 	neighbourhood.clear();
 
 	for (size_t i = 0; i < m_xoffset.size(); ++i)
 	{
-		neighbourhood.push_back(&agents[(GRID_SIZE + x + m_xoffset[i]) % GRID_SIZE][(GRID_SIZE + y + m_yoffset[i]) % GRID_SIZE]);
+		neighbourhood.push_back(&agents[(GRID_SIZE + x + m_xoffset[i]) % GRID_SIZE][(GRID_SIZE + y + m_yoffset[i]) % GRID_SIZE][(GRID_SIZE + z + m_zoffset[i]) % GRID_SIZE]);
 	}
 }
 
-Agent** Grid::GetAgent(int x, int y)
+Agent** Grid::GetAgent(int x, int y, int z)
 {
-	return &agents[x][y];
+	return &agents[x][y][z];
 }

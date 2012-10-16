@@ -12,7 +12,7 @@ void runEvolution()
 	srand(time(NULL));
 
 	initializeFitness();
-
+	
 	Grid grid;
 
 	vector<Agent**> neighbourhood;
@@ -242,7 +242,7 @@ void runEvolution()
 				}
 			}
 		}
-
+		
 		random_shuffle(reapers.begin(), reapers.end());
 		reapersQueue.clear();
 		copy(reapers.begin(), reapers.end(), back_inserter(reapersQueue));

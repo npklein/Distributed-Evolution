@@ -53,7 +53,7 @@ Grid::~Grid(void)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
 		{
-			if (agents[i][j] != 0)
+			if (agents[i][j] != NULL)
 			{
 				delete agents[i][j];
 			}

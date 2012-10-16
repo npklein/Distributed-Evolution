@@ -20,7 +20,7 @@ Reaper::~Reaper(void)
 template <class T> void Reaper::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)
 {
 	selectTo.clear();
-	int realTournamentSize = m_tournamentSize < selectFrom.size() ? m_tournamentSize : selectFrom.size();
+	int realTournamentSize = m_tournamentSize < (int)selectFrom.size() ? m_tournamentSize : selectFrom.size();
 	vector<T**> selectedForTournament;
 	selectedForTournament.reserve(realTournamentSize);
 

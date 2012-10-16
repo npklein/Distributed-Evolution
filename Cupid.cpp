@@ -75,7 +75,7 @@ void Cupid::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 template <class T> void Cupid::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)
 {
 	selectTo.clear();
-	int realTournamentSize = m_tournamentSize < selectFrom.size() ? m_tournamentSize : selectFrom.size();
+	int realTournamentSize = m_tournamentSize < (int)selectFrom.size() ? m_tournamentSize : selectFrom.size();
 	vector<T**> selectedForTournament;
 	// selectedForTournament.reserve(realTournamentSize);
 
@@ -84,7 +84,7 @@ template <class T> void Cupid::SelectToList(vector<T**> & selectFrom, vector<T**
 		selectedForTournament.push_back(NULL);
 	}
 		
-	for (int i = 0; i < (selectFrom.size() * 2); ++i)
+	for (int i = 0; i < ((int)selectFrom.size() * 2); ++i)
 	{
 		if(((double)rand() / (RAND_MAX + 1.0)) < probability) // TODO should be probability!
 		{
@@ -206,7 +206,7 @@ Agent** Cupid::GetParents()
 
 Agent** Cupid::GetEmptyCell()
 {
-	for (int i = 0; i < m_emptySpaces.size(); ++i)
+	for (int i = 0; i < (int) m_emptySpaces.size(); ++i)
 	{
 //		vector<Agent**>::const_iterator it = m_emptySpaces.begin() + i;
         vector<Agent**>::iterator it = m_emptySpaces.begin() + i;

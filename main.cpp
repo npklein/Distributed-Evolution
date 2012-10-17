@@ -49,35 +49,38 @@ void runEvolution()
 			{
 				for (int z = 0; z < GRID_SIZE; ++z)
 				{
-					if ((*(grid.GetAgent(j, k, z))) != NULL)
+					for (int u = 0; e < GRID_SIZE; ++u)
 					{
-						(*(grid.GetAgent(j, k, z)))->IncreaseAge();
-
-						switch ((*(grid.GetAgent(j, k, z)))->GetType())
+						if ((*(grid.GetAgent(j, k, z, u))) != NULL)
 						{
-							case breeder:
+							(*(grid.GetAgent(j, k, z, u)))->IncreaseAge();
+
+							switch ((*(grid.GetAgent(j, k, z, u)))->GetType())
 							{
-								grid.GetNeighbourhood(j, k, z, neighbourhood);
-								((Breeder*)(*(grid.GetAgent(j, k, z))))->ProcessNeighbourhood(neighbourhood);
-								break;
-							}
-							case cupid:
-							{
-								grid.GetNeighbourhood(j, k, z, neighbourhood);
-								((Cupid*)(*(grid.GetAgent(j, k, z))))->ProcessNeighbourhood(neighbourhood);
-								cupids.push_back((Cupid*)(*(grid.GetAgent(j, k, z))));
-								break;
-							}
-							case reaper:
-							{
-								grid.GetNeighbourhood(j, k, z, neighbourhood);
-								((Reaper*)(*(grid.GetAgent(j, k, z))))->ProcessNeighbourhood(neighbourhood);
-								reapers.push_back((Reaper**)(grid.GetAgent(j, k, z)));
-								break;
-							}
-							default:
-							{
-								break;
+								case breeder:
+								{
+									grid.GetNeighbourhood(j, k, z, u, neighbourhood);
+									((Breeder*)(*(grid.GetAgent(j, k, z, u))))->ProcessNeighbourhood(neighbourhood);
+									break;
+								}
+								case cupid:
+								{
+									grid.GetNeighbourhood(j, k, z, u, neighbourhood);
+									((Cupid*)(*(grid.GetAgent(j, k, z, u))))->ProcessNeighbourhood(neighbourhood);
+									cupids.push_back((Cupid*)(*(grid.GetAgent(j, k, z, u))));
+									break;
+								}
+								case reaper:
+								{
+									grid.GetNeighbourhood(j, k, z, u, neighbourhood);
+									((Reaper*)(*(grid.GetAgent(j, k, z, u))))->ProcessNeighbourhood(neighbourhood);
+									reapers.push_back((Reaper**)(grid.GetAgent(j, k, z, u)));
+									break;
+								}
+								default:
+								{
+									break;
+								}
 							}
 						}
 					}
@@ -176,68 +179,71 @@ void runEvolution()
 			{
 				for (int z = 0; z < GRID_SIZE; ++z)
 				{
-					if ((*(grid.GetAgent(j, k, z))) != NULL)
+					for (int u = 0; u < GRID_SIZE; ++u)
 					{
-						switch ((*(grid.GetAgent(j, k, z)))->GetType())
+						if ((*(grid.GetAgent(j, k, z, u))) != NULL)
 						{
-						case candidateSolution:
+							switch ((*(grid.GetAgent(j, k, z, u)))->GetType())
 							{
-								ca++;
-
-								sumFitness += (*(grid.GetAgent(j, k, z)))->GetFitness();
-								if ((*(grid.GetAgent(j, k, z)))->GetFitness() > fitness)
+							case candidateSolution:
 								{
-									fitness = (*(grid.GetAgent(j, k, z)))->GetFitness();
-								}
+									ca++;
 
+									sumFitness += (*(grid.GetAgent(j, k, z, u)))->GetFitness();
+									if ((*(grid.GetAgent(j, k, z)))->GetFitness() > fitness)
+									{
+										fitness = (*(grid.GetAgent(j, k, z, u)))->GetFitness();
+									}
+
+									break;
+								}
+							case cupid:
+								{
+									cu++;
+
+									double genome[5];
+									((Cupid*)(*(grid.GetAgent(j, k, z, u))))->GetGenome(genome);
+									for (int l = 0; l < 5; ++l)
+									{
+										cupidGenome[l] += genome[l];
+									}
+
+									break;
+								}
+							case breeder:
+								{
+									b++;
+
+									double genome[3];
+									((Breeder*)(*(grid.GetAgent(j, k, z, u))))->GetGenome(genome);
+									for (int l = 0; l < 3; ++l)
+									{
+										breederGenome[l] += genome[l];
+									}
+
+									break;
+								}
+							case reaper:
+								{
+									r++;
+
+									double genome[5];
+									((Reaper*)(*(grid.GetAgent(j, k, z, u))))->GetGenome(genome);
+									for (int l = 0; l < 5; ++l)
+									{
+										reaperGenome[l] += genome[l];
+									}
+
+									break;
+								}
+							default:
 								break;
 							}
-						case cupid:
-							{
-								cu++;
-
-								double genome[5];
-								((Cupid*)(*(grid.GetAgent(j, k, z))))->GetGenome(genome);
-								for (int l = 0; l < 5; ++l)
-								{
-									cupidGenome[l] += genome[l];
-								}
-
-								break;
-							}
-						case breeder:
-							{
-								b++;
-
-								double genome[3];
-								((Breeder*)(*(grid.GetAgent(j, k, z))))->GetGenome(genome);
-								for (int l = 0; l < 3; ++l)
-								{
-									breederGenome[l] += genome[l];
-								}
-
-								break;
-							}
-						case reaper:
-							{
-								r++;
-
-								double genome[5];
-								((Reaper*)(*(grid.GetAgent(j, k, z))))->GetGenome(genome);
-								for (int l = 0; l < 5; ++l)
-								{
-									reaperGenome[l] += genome[l];
-								}
-
-								break;
-							}
-						default:
-							break;
 						}
-					}
-					else
-					{
-						e++;
+						else
+						{
+							e++;
+						}
 					}
 				}
 			}

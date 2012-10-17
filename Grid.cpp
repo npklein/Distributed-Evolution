@@ -13,25 +13,28 @@ Grid::Grid(void)
 		{
 			for (int z = 0; z < GRID_SIZE; ++z)
 			{
-				double choice = (double)rand() / (RAND_MAX + 1.0);
+				for (int e = 0; e < GRID_SIZE; ++e)
+				{
+					double choice = (double)rand() / (RAND_MAX + 1.0);
 
-				if (choice < spawnBreederProbability)
-				{
-					agents[i][j][z] = new Breeder();
+					if (choice < spawnBreederProbability)
+					{
+						agents[i][j][z][e] = new Breeder();
+					}
+					else if (choice < (spawnBreederProbability + spawnCupidProbability))
+					{
+						agents[i][j][z][e] = new Cupid();
+					}
+					else if (choice < (spawnBreederProbability + spawnCupidProbability + spawnReaperProbability))
+					{
+						agents[i][j][z][e] = new Reaper();
+					}
+					else
+					{
+						agents[i][j][z][e] = new CandidateSolution();
+					}
+					agents[i][j][z][e]->RandomizeGenome();
 				}
-				else if (choice < (spawnBreederProbability + spawnCupidProbability))
-				{
-					agents[i][j][z] = new Cupid();
-				}
-				else if (choice < (spawnBreederProbability + spawnCupidProbability + spawnReaperProbability))
-				{
-					agents[i][j][z] = new Reaper();
-				}
-				else
-				{
-					agents[i][j][z] = new CandidateSolution();
-				}
-				agents[i][j][z]->RandomizeGenome();
 			}
 		}
 	}
@@ -42,11 +45,15 @@ Grid::Grid(void)
 		{
 			for (int z = -AGENT_ACTION_RADIUS; z <= AGENT_ACTION_RADIUS; ++z)
 			{
-				if (Distance(0, 0, 0, i, j, z) <= AGENT_ACTION_RADIUS && (i != 0 || j != 0 || z != 0))
+				for (int e = -AGENT_ACTION_RADIUS; e <= AGENT_ACTION_RADIUS; ++e)
 				{
-					m_xoffset.push_back(i);
-					m_yoffset.push_back(j);
-					m_zoffset.push_back(z);
+					if (Distance(0, 0, 0, 0, i, j, z, e) <= AGENT_ACTION_RADIUS && (i != 0 || j != 0 || z != 0 || e != 0))
+					{
+						m_xoffset.push_back(i);
+						m_yoffset.push_back(j);
+						m_zoffset.push_back(z);
+						m_eoffset.push_back(e);
+					}
 				}
 			}
 		}
@@ -62,9 +69,12 @@ Grid::~Grid(void)
 		{
 			for (int z = 0; z < GRID_SIZE; ++z)
 			{
-				if (agents[i][j] != NULL)
+			for (int e = 0; e < GRID_SIZE; ++e)
 				{
-					delete agents[i][j][z];
+					if (agents[i][j][z][e] != NULL)
+					{
+						delete agents[i][j][z];
+					}
 				}
 			}
 		}

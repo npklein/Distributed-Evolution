@@ -6,7 +6,7 @@
 #include "Grid.h"
 #include "fitness.h"
 
-const int GENERATION_COUNT = 10;
+const int GENERATION_COUNT = 500;
 void runEvolution()
 {
 	srand(time(NULL));

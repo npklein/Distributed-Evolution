@@ -49,7 +49,7 @@ void runEvolution()
 			{
 				for (int z = 0; z < GRID_SIZE; ++z)
 				{
-					for (int u = 0; e < GRID_SIZE; ++u)
+					for (int u = 0; u < GRID_SIZE; ++u)
 					{
 						if ((*(grid.GetAgent(j, k, z, u))) != NULL)
 						{
@@ -190,7 +190,7 @@ void runEvolution()
 									ca++;
 
 									sumFitness += (*(grid.GetAgent(j, k, z, u)))->GetFitness();
-									if ((*(grid.GetAgent(j, k, z)))->GetFitness() > fitness)
+									if ((*(grid.GetAgent(j, k, z, u)))->GetFitness() > fitness)
 									{
 										fitness = (*(grid.GetAgent(j, k, z, u)))->GetFitness();
 									}

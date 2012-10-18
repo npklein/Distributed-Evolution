@@ -13,7 +13,7 @@ Grid::Grid(void)
 		{
 			for (int z = 0; z < GRID_SIZE; ++z)
 			{
-				for (int u = 0; e < GRID_SIZE; ++u)
+				for (int u = 0; u < GRID_SIZE; ++u)
 				{
 					double choice = (double)rand() / (RAND_MAX + 1.0);
 
@@ -52,7 +52,7 @@ Grid::Grid(void)
 						m_xoffset.push_back(i);
 						m_yoffset.push_back(j);
 						m_zoffset.push_back(z);
-						m_eoffset.push_back(u);
+						m_uoffset.push_back(u);
 					}
 				}
 			}
@@ -69,7 +69,7 @@ Grid::~Grid(void)
 		{
 			for (int z = 0; z < GRID_SIZE; ++z)
 			{
-			for (int e = 0; u < GRID_SIZE; ++u)
+			for (int u = 0; u < GRID_SIZE; ++u)
 				{
 					if (agents[i][j][z][u] != NULL)
 					{
@@ -130,8 +130,8 @@ void Grid::DoMovement()
 		}
 	
 		Agent* helper = agents[positionFirstX][positionFirstY][positionFirstZ][positionFirstU];
-		agents[positionFirstX][positionFirstY][positionFirstZ] = agents[positionSecondX][positionSecondY][positionSecondZ][positionFirstU];
-		agents[positionSecondX][positionSecondY][positionSecondZ][positionFirstU] = helper;
+		agents[positionFirstX][positionFirstY][positionFirstZ][positionFirstU] = agents[positionSecondX][positionSecondY][positionSecondZ][positionSecondU];
+		agents[positionSecondX][positionSecondY][positionSecondZ][positionSecondU] = helper;
 	}
 }
 

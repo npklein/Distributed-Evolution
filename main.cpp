@@ -7,15 +7,6 @@
 #include "Grid.h"
 #include "fitness.h"
 
-<<<<<<< HEAD
-const int GENERATION_COUNT = 10;
-void runEvolution()
-{
-	srand(time(NULL));
-
-	initializeFitness();
-	
-=======
 const int GENERATION_COUNT = 100;
 void runEvolution(int FUNCION_ID)
 {
@@ -23,7 +14,6 @@ void runEvolution(int FUNCION_ID)
 
 	initializeFitness(FUNCION_ID);
 
->>>>>>> master
 	Grid grid;
 
 	vector<Agent**> neighbourhood;
@@ -373,7 +363,7 @@ int main (int argc, char **argv)
 	if (argc == 1)
 	{
 		std::cout << "No argument given. Using Fletcher Powell as fitness function" << std::endl;
-		runEvolution(0);
+		runEvolution(1);
 	}
 	else 
 	{

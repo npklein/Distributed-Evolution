@@ -109,7 +109,7 @@ void initializeFitness()
 //		strcpy_s(params.algName, "Distributed evolution");
 //		strcpy_s(params.comments, "No comments");
 
-        strcpy(params.dataPath, "D:\\tmp\\");
+        strcpy(params.dataPath, "folders");
         strcpy(params.algName, "Distributed evolution");
         strcpy(params.comments, "No comments");
 

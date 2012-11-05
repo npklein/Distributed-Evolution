@@ -7,7 +7,7 @@
   #define M_PI        3.14159265358979323846
 #endif
 
-#define FP 
+//#define FP
 
 #ifdef FP
 	const int FUNCTION_ID = 0; // 0 - Fletcher Powell, 1.. BBOB function ID

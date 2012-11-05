@@ -95,7 +95,7 @@ double FPGetValue(double * genome)
 	return sum;
 }
 
-void initializeFitness()
+void initializeFitness(int FUNCTION_ID)
 {
 	if (FUNCTION_ID == 0)
 	{
@@ -109,7 +109,7 @@ void initializeFitness()
 //		strcpy_s(params.algName, "Distributed evolution");
 //		strcpy_s(params.comments, "No comments");
 
-        strcpy(params.dataPath, "folders");
+        strcpy(params.dataPath, "BOBB");
         strcpy(params.algName, "Distributed evolution");
         strcpy(params.comments, "No comments");
 

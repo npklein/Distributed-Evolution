@@ -3,15 +3,16 @@
 #include <fstream>
 #include <algorithm>
 #include <time.h>
+#include <stdlib.h>
 #include "Grid.h"
 #include "fitness.h"
 
 const int GENERATION_COUNT = 100;
-void runEvolution()
+void runEvolution(int FUNCION_ID)
 {
 	srand(time(NULL));
 
-	initializeFitness();
+	initializeFitness(FUNCION_ID);
 
 	Grid grid;
 
@@ -347,9 +348,19 @@ int main (int argc, char **argv)
 {
 	time_t begin, end; 
 	time(&begin);
-	runEvolution();
+	if (argc == 1)
+	{
+		std::cout << "No argument given. Using Fletcher Powell as fitness function" << std::endl;
+		runEvolution(1);
+	}
+	else 
+	{
+		int FUNCTION_ID = atoi(argv[1]);
+		runEvolution(FUNCTION_ID);
+	}
+
 	time(&end);
-	cout << "Time elapsed: " << difftime(end, begin) << " seconds"<< endl;
+	std::cout << "Time elapsed: " << difftime(end, begin) << " seconds"<< endl;
 /*
 	initializeFitness();
 

@@ -8,13 +8,13 @@
 #include "fitness.h"
 
 const int GENERATION_COUNT = 100;
-void runEvolution(int FUNCION_ID)
+void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 {
 	srand(time(NULL));
 
-	initializeFitness(FUNCION_ID);
+	initializeFitness(FUNCION_ID, lowerBound, upperBound);
 
-	Grid grid;
+	Grid grid(lowerBound, upperBound);
 
 	vector<Agent**> neighbourhood;
 	vector<Cupid*> cupids;
@@ -24,7 +24,7 @@ void runEvolution(int FUNCION_ID)
 
 	std::ofstream outputFile;
 	outputFile.open("log.txt");
-	outputFile << "fitness \t sumFitness / ca \t e \t ca \t cu \t b \t r \t bred[0] \t bred[1] "
+	/*outputFile << "fitness \t sumFitness / ca \t e \t ca \t cu \t b \t r \t bred[0] \t bred[1] "
 				  "\t bred[2] \t bred[3] \t killed[0] \t killed[1] \t killed[2] \t killed[3] \t " 
 				  "cupidGenome[0] / cu \t cupidGenome[1] / cu \t cupidGenome[2] / cu \t "
 				  "cupidGenome[3] / cu \t cupidGenome[4] / cu \t reaperGenome[0] / r \t "
@@ -32,7 +32,7 @@ void runEvolution(int FUNCION_ID)
 	              "reaperGenome[4] / r \t breederGenome[0] / b \t breederGenome[1] / b \t "
 	              "breederGenome[2] / b"
 			      << std::endl;
-	
+	*/
 
 	
 	
@@ -130,7 +130,7 @@ void runEvolution(int FUNCION_ID)
 
 				if (empty != NULL && b != NULL)
 				{
-					b->Breed(parents, empty);
+					b->Breed(parents, empty, lowerBound, upperBound);
 					cupids.push_back(c);
 
 					switch ((*empty)->GetType())
@@ -360,15 +360,16 @@ int main (int argc, char **argv)
 {
 	time_t begin, end; 
 	time(&begin);
-	if (argc == 1)
+	if (argc == 1 || atoi(argv[1]) == 0)
 	{
 		std::cout << "No argument given. Using Fletcher Powell as fitness function" << std::endl;
-		runEvolution(1);
+		double pi = 3.14159265358979323846;
+		runEvolution(0, -pi, pi);
 	}
 	else 
 	{
 		int FUNCTION_ID = atoi(argv[1]);
-		runEvolution(FUNCTION_ID);
+		runEvolution(FUNCTION_ID, -5.0, 5.0);
 	}
 
 	time(&end);

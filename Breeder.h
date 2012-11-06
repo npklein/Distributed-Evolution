@@ -23,8 +23,8 @@ public:
 	void ProcessNeighbourhood(vector<Agent**> const& neighbourhood);
 	double * GetGenome();
 	void GetGenome(double outputArray[3]);
-	virtual void RandomizeGenome();
-	void Breed(Agent** parents, Agent** emptyPlace);
+	virtual void RandomizeGenome(double lowerBound, double upperBound);
+	void Breed(Agent** parents, Agent** emptyPlace, double lowerBound, double upperBound);
 
 private:
 	double m_candidateSolutionMutationSize;

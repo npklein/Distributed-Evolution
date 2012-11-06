@@ -134,7 +134,7 @@ void Cupid::Select()
 	SelectToList<Reaper>(m_reapers, m_selectedReapers, &Cupid::compareReapers, m_selectionProbReapers);
 }
 
-void Cupid::RandomizeGenome()
+void Cupid::RandomizeGenome(double lowerBound, double upperBound)
 {
 	m_selectionProbCandidateSolutions = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_CUPID;
 	m_selectionProbCupids = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_CUPID;

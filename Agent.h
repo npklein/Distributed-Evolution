@@ -14,7 +14,7 @@ public:
 	int GetAge();
 	void IncreaseAge();
 	AgentType GetType();
-	virtual void RandomizeGenome() = 0;
+	virtual void RandomizeGenome(double lowerBound, double upperBound) = 0;
 
 protected:
 	double m_fitness;

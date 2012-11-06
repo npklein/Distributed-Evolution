@@ -13,7 +13,7 @@ public:
 	~Reaper(void);
 
 	void Select();
-	virtual void RandomizeGenome();
+	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	Agent** GetAgentToKill();
 
 private:

@@ -1,5 +1,7 @@
 #include "fitness.h"
 #include "bbobStructures.h"
+#include <iostream>
+#include <fstream>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
@@ -96,7 +98,7 @@ double FPGetValue(double * genome)
 	return sum;
 }
 
-void initializeFitness(int FUNCTION_ID)
+void initializeFitness(int FUNCTION_ID, double lowerBound, double upperBound)
 {
 	if (FUNCTION_ID == 0)
 	{
@@ -132,10 +134,10 @@ double fitnessFunction(double * genome)
 	return 1.0 / (1.0 + sum - min);
 }
 
-double randomGene()
+double randomGene(double lowerBound, double upperBound)
 {
-	double r = (double)rand();
+	//double r = (double)rand();
 	double f = (double)rand() / (RAND_MAX + 1.0);
-	double result = lowerBound + f * (upperBound - lowerBound);
+	//double result = lowerBound + f * (upperBound - lowerBound);
 	return lowerBound + f * (upperBound - lowerBound);
 }

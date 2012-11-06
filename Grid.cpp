@@ -1,11 +1,10 @@
 #include "Grid.h"
 #include <cstdlib>
 #include <cmath>
-#include <iostream>
-#include <fstream>
 
 
-Grid::Grid(void)
+
+Grid::Grid(double lowerBound, double upperBound)
 {
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{

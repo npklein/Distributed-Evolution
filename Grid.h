@@ -22,8 +22,8 @@ const double spawnReaperProbability = 0.0625;
 class Grid
 {	
 public:
-
-	Grid(void);
+	
+	Grid(double lowerBound, double upperBound);
 	~Grid(void);
 
 	void DoMovement();

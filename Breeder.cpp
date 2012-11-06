@@ -95,14 +95,14 @@ void Breeder::GetGenome( double outputArray[3] )
 	outputArray[1] = m_fateMutationSize;
 	outputArray[2] = m_tournamentMutationSize;
 }
-void Breeder::RandomizeGenome()
+void Breeder::RandomizeGenome(double upperBound, double lowerBound)
 {
 	m_candidateSolutionMutationSize = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_CS_MUTATION_SIZE;
 	m_fateMutationSize = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_FATE_MUTATION_SIZE;
 	m_tournamentMutationSize = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_TOURNAMENT_MUTATION_SIZE;
 }
 
-void Breeder::Breed( Agent** parents, Agent** emptyPlace )
+void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, double upperBound )
 {
 	switch (parents[0]->GetType())
 	{

@@ -4,7 +4,7 @@ CFLAGS = -Wall -g
 
 
 SRC1 = Agent.cpp Breeder.cpp CandidateSolution.cpp \
-    Cupid.cpp FateAgent.cpp Grid.cpp Reaper.cpp \
+    Cupid.cpp FateAgent.cpp Bag.cpp Reaper.cpp \
     fitness.cpp \
     benchmarks.cpp \
     benchmarkshelper.cpp benchmarksnoisy.cpp benchmarksdeclare.cpp

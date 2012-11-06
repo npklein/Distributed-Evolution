@@ -20,7 +20,7 @@ public:
 	Breeder(double * genome);
 	~Breeder(void);
 
-	void ProcessNeighbourhood(vector<Agent**> const& neighbourhood);
+	void SetFitness();
 	double * GetGenome();
 	void GetGenome(double outputArray[3]);
 	virtual void RandomizeGenome(double lowerBound, double upperBound);

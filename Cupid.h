@@ -10,7 +10,7 @@ public:
 	Cupid(double* genome, int* intGenome);
 	~Cupid(void);
 
-	virtual void ProcessNeighbourhood(vector<Agent**> const& neighbours);
+	virtual void SetFitness();
 	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	void Select();
 	Agent** GetParents();

@@ -17,59 +17,10 @@ Cupid::~Cupid(void)
 {
 }
 
-void Cupid::ProcessNeighbourhood(vector<Agent**> const& neighbours)
+void Cupid::SetFitness()
 {
-	m_candidateSolutions.clear();
-	m_cupids.clear();
-	m_breeders.clear();
-	m_reapers.clear();
-	m_emptySpaces.clear();
-
-	double max = -1.0;
-
-	for (size_t i = 0; i < neighbours.size(); ++i)
-	{
-		if ((*(neighbours.at(i))) != NULL)
-		{
-			switch ((*(neighbours.at(i)))->GetType())
-			{
-				case candidateSolution:
-				{
-					m_candidateSolutions.push_back((CandidateSolution**)neighbours.at(i));
-					if ((*(neighbours.at(i)))->GetFitness() > max)
-					{
-						max = (*(neighbours.at(i)))->GetFitness();
-					}
-					break;
-				}
-				case cupid:
-				{
-					m_cupids.push_back((Cupid**)neighbours.at(i));
-					break;
-				}
-				case breeder:
-				{
-					m_breeders.push_back((Breeder**)neighbours.at(i));
-					break;
-				}
-				case reaper:
-				{
-					m_reapers.push_back((Reaper**)neighbours.at(i));
-					break;
-				}
-				default:
-				{
-					break;
-				}
-			}
-		}
-		else
-		{
-			m_emptySpaces.push_back(neighbours.at(i));
-		}
-	}
-
-	m_fitness = max;
+	// need to think of a way to determine fitness
+	m_fitness = 1;
 }
 
 template <class T> void Cupid::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)

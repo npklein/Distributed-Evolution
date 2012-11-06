@@ -17,6 +17,12 @@ Reaper::~Reaper(void)
 {
 }
 
+void Reaper::SetFitness()
+{
+	// need to think of a way to determine fitness
+	m_fitness = 1;
+}
+
 template <class T> void Reaper::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)
 {
 	selectTo.clear();

@@ -83,7 +83,7 @@ bool Reaper::compareReapers(Reaper** left, Reaper** right)
 	return (*left)->GetFitness() < (*right)->GetFitness();
 }
 
-void Reaper::RandomizeGenome()
+void Reaper::RandomizeGenome(double lowerBound, double upperBound)
 {
 	m_selectionProbCandidateSolutions = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_REAPER;
 	m_selectionProbCupids = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_REAPER;

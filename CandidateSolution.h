@@ -12,7 +12,7 @@ public:
 	CandidateSolution(void);
 	CandidateSolution(double * genome);
 	~CandidateSolution(void);
-	virtual void RandomizeGenome();
+	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	double * GetGenome();
 
 private:

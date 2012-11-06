@@ -1,5 +1,7 @@
 #include "fitness.h"
 #include "bbobStructures.h"
+#include <iostream>
+#include <fstream>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
@@ -89,13 +91,14 @@ double FPGetValue(double * genome)
 			Ai += A[i][j] * std::sin(a[j]) + B[i][j] * std::cos(a[j]);
 			Bi += A[i][j] * std::sin(genome[j]) + B[i][j] * std::cos(genome[j]);
 		}
+		std::cout << std::pow(Ai-Bi, 2) << std::endl;
 		sum += std::pow(Ai-Bi, 2);
 	}
 
 	return sum;
 }
 
-void initializeFitness()
+void initializeFitness(int FUNCTION_ID, double lowerBound, double upperBound)
 {
 	if (FUNCTION_ID == 0)
 	{
@@ -109,7 +112,7 @@ void initializeFitness()
 //		strcpy_s(params.algName, "Distributed evolution");
 //		strcpy_s(params.comments, "No comments");
 
-        strcpy(params.dataPath, "D:\\tmp\\");
+        strcpy(params.dataPath, "BOBB");
         strcpy(params.algName, "Distributed evolution");
         strcpy(params.comments, "No comments");
 
@@ -131,10 +134,10 @@ double fitnessFunction(double * genome)
 	return 1.0 / (1.0 + sum - min);
 }
 
-double randomGene()
+double randomGene(double lowerBound, double upperBound)
 {
-	double r = (double)rand();
+	//double r = (double)rand();
 	double f = (double)rand() / (RAND_MAX + 1.0);
-	double result = lowerBound + f * (upperBound - lowerBound);
+	//double result = lowerBound + f * (upperBound - lowerBound);
 	return lowerBound + f * (upperBound - lowerBound);
 }

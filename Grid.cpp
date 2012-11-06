@@ -1,11 +1,10 @@
 #include "Grid.h"
 #include <cstdlib>
 #include <cmath>
-#include <iostream>
-#include <fstream>
 
 
-Grid::Grid(void)
+
+Grid::Grid(double lowerBound, double upperBound)
 {
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
@@ -31,7 +30,7 @@ Grid::Grid(void)
 				{
 					agents[i][j][z] = new CandidateSolution();
 				}
-				agents[i][j][z]->RandomizeGenome();
+				agents[i][j][z]->RandomizeGenome(lowerBound, upperBound);
 			}
 		}
 	}

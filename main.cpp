@@ -7,7 +7,7 @@
 #include "Grid.h"
 #include "fitness.h"
 
-const int GENERATION_COUNT = 100;
+const int GENERATION_COUNT = 500;
 void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 {
 	srand(time(NULL));

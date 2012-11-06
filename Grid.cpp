@@ -4,7 +4,7 @@
 
 
 
-Grid::Grid(void)
+Grid::Grid(double lowerBound, double upperBound)
 {
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
@@ -29,7 +29,7 @@ Grid::Grid(void)
 				agents[i][j] = new CandidateSolution();
 			}
 
-			agents[i][j]->RandomizeGenome();
+			agents[i][j]->RandomizeGenome(lowerBound, upperBound);
 		}
 	}
 

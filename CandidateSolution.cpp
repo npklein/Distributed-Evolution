@@ -27,11 +27,11 @@ CandidateSolution::~CandidateSolution(void)
 	delete [] m_genome;
 }
 
-void CandidateSolution::RandomizeGenome()
+void CandidateSolution::RandomizeGenome(double lowerBound, double upperBound)
 {
 	for (int i = 0;  i < PROBLEM_DIMENSION; ++i)
 	{
-		m_genome[i] = randomGene();
+		m_genome[i] = randomGene(lowerBound, upperBound);
 	}
 	m_fitness = fitnessFunction(m_genome);
 }

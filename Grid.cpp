@@ -32,7 +32,7 @@ Grid::Grid(double lowerBound, double upperBound)
 					{
 						agents[i][j][z][u] = new CandidateSolution();
 					}
-					agents[i][j][z][u]->RandomizeGenome();
+					agents[i][j][z][u]->RandomizeGenome(lowerBound, upperBound);
 				}
 			}
 		}

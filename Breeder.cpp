@@ -109,7 +109,6 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 	case candidateSolution:
 		{
 			double * newGenome = new double[PROBLEM_DIMENSION];
-			std::cout << lowerBound << std::endl;
 			DoUniformCrossover(((CandidateSolution*)parents[0])->GetGenome(), ((CandidateSolution*)parents[1])->GetGenome(), PROBLEM_DIMENSION, newGenome, 1.0);
 			DoNonUniformMutation(newGenome, PROBLEM_DIMENSION, CS_MUTATION_RATE, m_candidateSolutionMutationSize, lowerBound, upperBound);
 			

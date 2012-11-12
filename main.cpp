@@ -48,11 +48,13 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 					case cupid:
 					{
 						((Cupid*)(*(bag.GetAgent(j))))->SetFitness();
+						cupids.push_back((Cupid*)(*(bag.GetAgent(j))));
 						break;
 					}
 					case reaper:
 					{
 						((Reaper*)(*(bag.GetAgent(j))))->SetFitness();
+						reapers.push_back((Reaper**)(bag.GetAgent(j)));
 						break;
 					}
 					default:
@@ -90,6 +92,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 		{
 			while (!cupidsQueue.empty())
 			{
+				std::cout << "werkt" << std::endl;
 				Cupid* c = *(cupidsQueue.end()-1);
 				cupidsQueue.pop_back();
 

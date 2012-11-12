@@ -16,7 +16,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 
 	//Grid grid(lowerBound, upperBound);
 	Bag bag(lowerBound, upperBound);
-	vector<Agent**> neighbourhood;
 	vector<Cupid*> cupids;
 	vector<Reaper**> reapers;
 	vector<Cupid*> cupidsQueue;
@@ -86,7 +85,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 		cupids.clear();
 
 		int bred[4] = { 0, 0, 0, 0 };
-		
+
 		while (!cupidsQueue.empty())
 		{
 			while (!cupidsQueue.empty())

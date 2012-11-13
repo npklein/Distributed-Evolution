@@ -10,7 +10,6 @@
 
 class Cupid;
 class Reaper;
-class Breeder;
 
 using namespace std;
 

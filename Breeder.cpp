@@ -70,10 +70,10 @@ void Breeder::SetFitness()
 	m_fitness = 1;
 }
 
-void Breeder::ProcessBag(Bag& bag)
+void Breeder::ProcessBag(int bagSize)
 {
 	double max = -1.0;
-	
+	/*
 	for (int i = 0; i < BAG_SIZE; ++i)
 	{
 		if ((*(bag.at(i))) != NULL && (*(bag.at(i)))->GetType() == candidateSolution && (*(bag.at(i)))->GetFitness() > max)
@@ -83,6 +83,7 @@ void Breeder::ProcessBag(Bag& bag)
 	}
 	
 	m_fitness = max;
+	 */
 }
 
 

@@ -13,7 +13,6 @@ public:
 	~Reaper(void);
 
 	virtual void SetFitness();
-	virtual void ProcessBag(Bag& bag);
 	void Select();
 	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	Agent** GetAgentToKill();

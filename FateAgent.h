@@ -6,7 +6,6 @@
 #include "Agent.h"
 #include "Breeder.h"
 #include "CandidateSolution.h"
-#include "Bag.h"
 #include <vector>
 
 class Cupid;
@@ -27,7 +26,7 @@ public:
 	FateAgent(double* genome, int* intGenome);
 	~FateAgent(void);
 
-	virtual void ProcessBag(Bag* bag);
+	virtual void ProcessBag(int bagSize);
 	virtual void RandomizeGenome(double lowerBound, double upperBound) = 0;
 	double* GetDoubleGenome();
 	int* GetIntGenome();

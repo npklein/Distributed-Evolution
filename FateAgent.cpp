@@ -1,5 +1,4 @@
 #include "FateAgent.h"
-#include "Bag.h"
 
 FateAgent::FateAgent(void)
 {
@@ -14,7 +13,7 @@ FateAgent::~FateAgent(void)
 {
 }
 
-void FateAgent::ProcessBag(Bag* bag)
+void FateAgent::ProcessBag(int bagSize)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();
@@ -22,7 +21,7 @@ void FateAgent::ProcessBag(Bag* bag)
 	m_reapers.clear();
 
 	double max = -1.0;
-
+/*
 	for (int i = 0; i < BAG_SIZE; ++i)
 	{
 		if ((*(bag.at(i))) != NULL)
@@ -62,6 +61,7 @@ void FateAgent::ProcessBag(Bag* bag)
 	}
 
 	m_fitness = max;
+ */
 }
 
 double* FateAgent::GetDoubleGenome()

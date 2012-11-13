@@ -18,13 +18,13 @@ Cupid::~Cupid(void)
 {
 }
 
-void Cupid::SetFitness()
+void Cupid::GetFitness()
 {
 	// need to think of a way to determine fitness
 	m_fitness = 1;
 }
 
-void Cupid::ProcessBag(Bag& bag)
+void Cupid::ProcessBag(int bagSize)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();
@@ -33,7 +33,7 @@ void Cupid::ProcessBag(Bag& bag)
 	m_emptySpaces.clear();
 
 	double max = -1.0;
-	
+	/*
 	for (int i = 0; i < BAG_SIZE; ++i)
 	{
 		if ((*(bag.at(i))) != NULL)
@@ -77,6 +77,7 @@ void Cupid::ProcessBag(Bag& bag)
 	}
 	
 	m_fitness = max;
+	 */
 }
 
 template <class T> void Cupid::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)

@@ -22,7 +22,7 @@ public:
 	~Breeder(void);
 
 	void SetFitness();
-	virtual void ProcessBag(Bag& bag);
+	virtual void ProcessBag(int bagSize);
 	double * GetGenome();
 	void GetGenome(double outputArray[3]);
 	virtual void RandomizeGenome(double lowerBound, double upperBound);

@@ -43,20 +43,20 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 					case breeder:
 					{
 						((Breeder*)(*(bag.GetAgent(j))))->SetFitness();
-						((Breeder*)(*(bag.GetAgent(j))))->ProcessBag(bag);
+						((Breeder*)(*(bag.GetAgent(j))))->ProcessBag(BAG_SIZE);
 						break;
 					}
 					case cupid:
 					{
 						((Cupid*)(*(bag.GetAgent(j))))->SetFitness();
-						((Cupid*)(*(bag.GetAgent(j))))->ProcessBag(bag);
+						((Cupid*)(*(bag.GetAgent(j))))->ProcessBag(BAG_SIZE);
 						cupids.push_back((Cupid*)(*(bag.GetAgent(j))));
 						break;
 					}
 					case reaper:
 					{
 						((Reaper*)(*(bag.GetAgent(j))))->SetFitness();
-						((Reaper*)(*(bag.GetAgent(j))))->ProcessBag(bag);
+						((Reaper*)(*(bag.GetAgent(j))))->ProcessBag(BAG_SIZE);
 						reapers.push_back((Reaper**)(bag.GetAgent(j)));
 						break;
 					}

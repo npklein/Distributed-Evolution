@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const int GRID_SIZE = 10;
+const int GRID_SIZE = 100;
 const int AGENT_RANGE = 5;
 const int AGENT_ACTION_RADIUS = 5;
 const double edgeSwapProbability = 0.5;

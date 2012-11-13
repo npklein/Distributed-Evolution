@@ -7,7 +7,7 @@
 #include "Grid.h"
 #include "fitness.h"
 
-const int GENERATION_COUNT = 100;
+const int GENERATION_COUNT = 500;
 void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 {
 	srand(time(NULL));
@@ -82,7 +82,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				}
 			}
 		}
-		std::cout << m_cupids.empty() << std::endl;
 		int cs = 0, rs = 0;
 
 		for (vector<Cupid*>::const_iterator it = cupids.begin(); it != cupids.end(); ++it)

@@ -33,7 +33,7 @@ void Cupid::ProcessBag(int BAG_SIZE)
 	
 	double max = -1.0;
 	
-	for (size_t i = 0; i < neighbours.size(); ++i)
+	for (size_t i = 0; i < BAG_SIZE.size(); ++i)
 	{
 		if ((*(neighbours.at(i))) != NULL)
 		{

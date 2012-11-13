@@ -81,9 +81,9 @@ void Breeder::ProcessBag(int bagSize)
 			max = (*(bag.at(i)))->GetFitness();
 		}
 	}
-	
+	*/
 	m_fitness = max;
-	 */
+	 
 }
 
 

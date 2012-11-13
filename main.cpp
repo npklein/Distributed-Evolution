@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <time.h>
 #include <stdlib.h>
-#include "Grid.h"
+#include "Bag.h"
 #include "fitness.h"
 
 const int GENERATION_COUNT = 500;
@@ -14,8 +14,8 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 
 	initializeFitness(FUNCION_ID, lowerBound, upperBound);
 
-	Grid grid(lowerBound, upperBound);
-
+	//Grid grid(lowerBound, upperBound);
+	Bag bag(lowerBound, upperBound);
 	vector<Agent**> neighbourhood;
 	vector<Cupid*> cupids;
 	vector<Reaper**> reapers;
@@ -39,45 +39,41 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 	for(int i = 0; i < GENERATION_COUNT; ++i)
 	{
 		std::cout << i << std::endl;
-		grid.DoMovement(); 
 
 		cupids.clear();
 		reapers.clear();
 
-		for (int j = 0; j < GRID_SIZE; ++j)
+		for (int j = 0; j < BAG_SIZE; ++j)
 		{
-			for (int k = 0; k < GRID_SIZE; ++k)
+			if ((*(bag.GetAgent(j))) != NULL)
 			{
-				if ((*(grid.GetAgent(j, k))) != NULL)
-				{
-					(*(grid.GetAgent(j, k)))->IncreaseAge();
+				(*(bag.GetAgent(j)))->IncreaseAge();
 
-					switch ((*(grid.GetAgent(j, k)))->GetType())
+				switch ((*(bag.GetAgent(j)))->GetType())
+				{
+					case breeder:
 					{
-						case breeder:
-						{
-							grid.GetNeighbourhood(j, k, neighbourhood);
-							((Breeder*)(*(grid.GetAgent(j, k))))->ProcessNeighbourhood(neighbourhood);
-							break;
-						}
-						case cupid:
-						{
-							grid.GetNeighbourhood(j, k, neighbourhood);
-							((Cupid*)(*(grid.GetAgent(j, k))))->ProcessNeighbourhood(neighbourhood);
-							cupids.push_back((Cupid*)(*(grid.GetAgent(j, k))));
-							break;
-						}
-						case reaper:
-						{
-							grid.GetNeighbourhood(j, k, neighbourhood);
-							((Reaper*)(*(grid.GetAgent(j, k))))->ProcessNeighbourhood(neighbourhood);
-							reapers.push_back((Reaper**)(grid.GetAgent(j, k)));
-							break;
-						}
-						default:
-						{
-							break;
-						}
+						bag.GetNeighbourhood(j, neighbourhood);
+						((Breeder*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
+						break;
+					}
+					case cupid:
+					{
+						bag.GetNeighbourhood(j, neighbourhood);
+						((Cupid*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
+						cupids.push_back((Cupid*)(*(bag.GetAgent(j))));
+						break;
+					}
+					case reaper:
+					{
+						bag.GetNeighbourhood(j, neighbourhood);
+						((Reaper*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
+						reapers.push_back((Reaper**)(bag.GetAgent(j)));
+						break;
+					}
+					default:
+					{
+						break;
 					}
 				}
 			}
@@ -89,7 +85,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			(*it)->Select();
 			cs += (*it)->GetSelectedCount();
 		}
-
+	
 		for (vector<Reaper**>::const_iterator it = reapers.begin(); it != reapers.end(); ++it)
 		{
 			(**it)->Select();
@@ -104,7 +100,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 		cupids.clear();
 
 		int bred[4] = { 0, 0, 0, 0 };
-		
 		while (!cupidsQueue.empty())
 		{
 			while (!cupidsQueue.empty())
@@ -167,73 +162,70 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 
 		int e = 0, ca = 0, cu = 0, b = 0, r = 0;
 
-		for (int j = 0; j < GRID_SIZE; ++j)
+		for (int j = 0; j < BAG_SIZE; ++j)
 		{
-			for (int k = 0; k < GRID_SIZE; ++k)
+			if ((*(bag.GetAgent(j))) != NULL)
 			{
-				if ((*(grid.GetAgent(j, k))) != NULL)
+				switch ((*(bag.GetAgent(j)))->GetType())
 				{
-					switch ((*(grid.GetAgent(j, k)))->GetType())
+				case candidateSolution:
 					{
-					case candidateSolution:
+						ca++;
+
+						sumFitness += (*(bag.GetAgent(j)))->GetFitness();
+						if ((*(bag.GetAgent(j)))->GetFitness() > fitness)
 						{
-							ca++;
-
-							sumFitness += (*(grid.GetAgent(j, k)))->GetFitness();
-							if ((*(grid.GetAgent(j, k)))->GetFitness() > fitness)
-							{
-								fitness = (*(grid.GetAgent(j, k)))->GetFitness();
-							}
-
-							break;
+							fitness = (*(bag.GetAgent(j)))->GetFitness();
 						}
-					case cupid:
-						{
-							cu++;
 
-							double genome[5];
-							((Cupid*)(*(grid.GetAgent(j, k))))->GetGenome(genome);
-							for (int l = 0; l < 5; ++l)
-							{
-								cupidGenome[l] += genome[l];
-							}
-
-							break;
-						}
-					case breeder:
-						{
-							b++;
-
-							double genome[3];
-							((Breeder*)(*(grid.GetAgent(j, k))))->GetGenome(genome);
-							for (int l = 0; l < 3; ++l)
-							{
-								breederGenome[l] += genome[l];
-							}
-
-							break;
-						}
-					case reaper:
-						{
-							r++;
-
-							double genome[5];
-							((Reaper*)(*(grid.GetAgent(j, k))))->GetGenome(genome);
-							for (int l = 0; l < 5; ++l)
-							{
-								reaperGenome[l] += genome[l];
-							}
-
-							break;
-						}
-					default:
 						break;
 					}
+				case cupid:
+					{
+						cu++;
+
+						double genome[5];
+						((Cupid*)(*(bag.GetAgent(j))))->GetGenome(genome);
+						for (int l = 0; l < 5; ++l)
+						{
+							cupidGenome[l] += genome[l];
+						}
+
+						break;
+					}
+				case breeder:
+					{
+						b++;
+
+						double genome[3];
+						((Breeder*)(*(bag.GetAgent(j))))->GetGenome(genome);
+						for (int l = 0; l < 3; ++l)
+						{
+							breederGenome[l] += genome[l];
+						}
+
+						break;
+					}
+				case reaper:
+					{
+						r++;
+
+						double genome[5];
+						((Reaper*)(*(bag.GetAgent(j))))->GetGenome(genome);
+						for (int l = 0; l < 5; ++l)
+						{
+							reaperGenome[l] += genome[l];
+						}
+
+						break;
+					}
+				default:
+					break;
 				}
-				else
-				{
-					e++;
-				}
+			}
+			else
+			{
+				e++;
 			}
 		}
 

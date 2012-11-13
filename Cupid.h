@@ -11,7 +11,7 @@ public:
 	Cupid(double* genome, int* intGenome);
 	~Cupid(void);
 	
-	virtual void ProcessBag(Bag*);
+	virtual void ProcessBag(Bag& bag);
 	virtual void SetFitness();
 	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	void Select();

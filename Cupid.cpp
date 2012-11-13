@@ -24,7 +24,7 @@ void Cupid::SetFitness()
 	m_fitness = 1;
 }
 
-void Cupid::ProcessBag(Bag* bag)
+void Cupid::ProcessBag(Bag& bag)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();

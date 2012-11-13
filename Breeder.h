@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <math.h>
+#include "Bag.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ public:
 	~Breeder(void);
 
 	void SetFitness();
+	virtual void ProcessBag(Bag& bag);
 	double * GetGenome();
 	void GetGenome(double outputArray[3]);
 	virtual void RandomizeGenome(double lowerBound, double upperBound);

@@ -3,6 +3,7 @@
 #include "fitness.h"
 #include "Cupid.h"
 #include "Reaper.h"
+#include "Bag.h"
 
 // Random number from a normal distribution, taken from: http://www.dreamincode.net/code/snippet1446.htm 
 double randn_notrig(double mu=0.0, double sigma=1.0) {
@@ -68,6 +69,22 @@ void Breeder::SetFitness()
 	// need to think of a method to set fitness
 	m_fitness = 1;
 }
+
+void Breeder::ProcessBag(Bag& bag)
+{
+	double max = -1.0;
+	
+	for (int i = 0; i < BAG_SIZE; ++i)
+	{
+		if ((*(bag.at(i))) != NULL && (*(bag.at(i)))->GetType() == candidateSolution && (*(bag.at(i)))->GetFitness() > max)
+		{
+			max = (*(bag.at(i)))->GetFitness();
+		}
+	}
+	
+	m_fitness = max;
+}
+
 
 double * Breeder::GetGenome()
 {

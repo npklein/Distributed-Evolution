@@ -82,7 +82,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				}
 			}
 		}
-
+		std::cout << m_cupids.empty() << std::endl;
 		int cs = 0, rs = 0;
 
 		for (vector<Cupid*>::const_iterator it = cupids.begin(); it != cupids.end(); ++it)

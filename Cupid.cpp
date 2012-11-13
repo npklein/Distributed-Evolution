@@ -1,5 +1,6 @@
 #include "Cupid.h"
 #include "Reaper.h"
+#include "BAG.h"
 #include <algorithm>
 
 
@@ -23,7 +24,7 @@ void Cupid::SetFitness()
 	m_fitness = 1;
 }
 
-void Cupid::ProcessBag(int BAG_SIZE)
+void Cupid::ProcessBag(*bag)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();

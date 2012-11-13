@@ -9,7 +9,8 @@ public:
 	Cupid(void);
 	Cupid(double* genome, int* intGenome);
 	~Cupid(void);
-
+	
+	virtual void ProcessBag();
 	virtual void SetFitness();
 	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	void Select();

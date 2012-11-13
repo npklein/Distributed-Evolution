@@ -56,7 +56,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 					case reaper:
 					{
 						((Reaper*)(*(bag.GetAgent(j))))->SetFitness();
-						((Reaper*)(*(grid.GetAgent(j, k))))->ProcessBag(bag);
+						((Reaper*)(*(bag.GetAgent(j))))->ProcessBag(bag);
 						reapers.push_back((Reaper**)(bag.GetAgent(j)));
 						break;
 					}

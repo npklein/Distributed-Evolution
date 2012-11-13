@@ -1,6 +1,6 @@
 #include "Cupid.h"
 #include "Reaper.h"
-#include "BAG.h"
+#include "Bag.h"
 #include <algorithm>
 
 
@@ -24,44 +24,44 @@ void Cupid::SetFitness()
 	m_fitness = 1;
 }
 
-void Cupid::ProcessBag(*bag)
+void Cupid::ProcessBag(Bag* bag)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();
 	m_breeders.clear();
 	m_reapers.clear();
 	m_emptySpaces.clear();
-	
+
 	double max = -1.0;
 	
-	for (size_t i = 0; i < BAG_SIZE.size(); ++i)
+	for (int i = 0; i < BAG_SIZE; ++i)
 	{
-		if ((*(neighbours.at(i))) != NULL)
+		if ((*(bag.at(i))) != NULL)
 		{
-			switch ((*(neighbours.at(i)))->GetType())
+			switch ((*(bag.at(i)))->GetType())
 			{
 				case candidateSolution:
 				{
-					m_candidateSolutions.push_back((CandidateSolution**)neighbours.at(i));
+					m_candidateSolutions.push_back((CandidateSolution**)bag.at(i));
 					if ((*(neighbours.at(i)))->GetFitness() > max)
 					{
-						max = (*(neighbours.at(i)))->GetFitness();
+						max = (*(bag.at(i)))->GetFitness();
 					}
 					break;
 				}
 				case cupid:
 				{
-					m_cupids.push_back((Cupid**)neighbours.at(i));
+					m_cupids.push_back((Cupid**)bag.at(i));
 					break;
 				}
 				case breeder:
 				{
-					m_breeders.push_back((Breeder**)neighbours.at(i));
+					m_breeders.push_back((Breeder**)bag.at(i));
 					break;
 				}
 				case reaper:
 				{
-					m_reapers.push_back((Reaper**)neighbours.at(i));
+					m_reapers.push_back((Reaper**)bag.at(i));
 					break;
 				}
 				default:
@@ -72,7 +72,7 @@ void Cupid::ProcessBag(*bag)
 		}
 		else
 		{
-			m_emptySpaces.push_back(neighbours.at(i));
+			m_emptySpaces.push_back(bag.at(i));
 		}
 	}
 	

@@ -12,7 +12,6 @@ public:
 	Reaper(double* genome, int* intGenome);
 	~Reaper(void);
 
-	virtual void SetFitness();
 	void Select();
 	virtual void RandomizeGenome(double lowerBound, double upperBound);
 	Agent** GetAgentToKill();

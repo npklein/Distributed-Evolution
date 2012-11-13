@@ -7,7 +7,7 @@
 #include "Bag.h"
 #include "fitness.h"
 
-const int GENERATION_COUNT = 100;
+const int GENERATION_COUNT = 500;
 void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 {
 	srand(time(NULL));
@@ -16,6 +16,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 
 	//Grid grid(lowerBound, upperBound);
 	Bag bag(lowerBound, upperBound);
+	vector<Agent**> neighbourhood;
 	vector<Cupid*> cupids;
 	vector<Reaper**> reapers;
 	vector<Cupid*> cupidsQueue;
@@ -23,17 +24,27 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 
 	std::ofstream outputFile;
 	outputFile.open("log.txt");
+	/*outputFile << "fitness \t sumFitness / ca \t e \t ca \t cu \t b \t r \t bred[0] \t bred[1] "
+				  "\t bred[2] \t bred[3] \t killed[0] \t killed[1] \t killed[2] \t killed[3] \t " 
+				  "cupidGenome[0] / cu \t cupidGenome[1] / cu \t cupidGenome[2] / cu \t "
+				  "cupidGenome[3] / cu \t cupidGenome[4] / cu \t reaperGenome[0] / r \t "
+	              "reaperGenome[1] / r \t reaperGenome[2] / r \t reaperGenome[3] / r \t "
+	              "reaperGenome[4] / r \t breederGenome[0] / b \t breederGenome[1] / b \t "
+	              "breederGenome[2] / b"
+			      << std::endl;
+	*/
+
 	
 	
 	for(int i = 0; i < GENERATION_COUNT; ++i)
 	{
 		std::cout << i << std::endl;
+
 		cupids.clear();
 		reapers.clear();
 
 		for (int j = 0; j < BAG_SIZE; ++j)
 		{
-
 			if ((*(bag.GetAgent(j))) != NULL)
 			{
 				(*(bag.GetAgent(j)))->IncreaseAge();
@@ -42,21 +53,21 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				{
 					case breeder:
 					{
-						((Breeder*)(*(bag.GetAgent(j))))->SetFitness();
-						((Breeder*)(*(bag.GetAgent(j))))->ProcessBag(BAG_SIZE);
+						bag.GetNeighbourhood(j, neighbourhood);
+						((Breeder*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
 						break;
 					}
 					case cupid:
 					{
-						((Cupid*)(*(bag.GetAgent(j))))->SetFitness();
-						((Cupid*)(*(bag.GetAgent(j))))->ProcessBag(BAG_SIZE);
+						bag.GetNeighbourhood(j, neighbourhood);
+						((Cupid*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
 						cupids.push_back((Cupid*)(*(bag.GetAgent(j))));
 						break;
 					}
 					case reaper:
 					{
-						((Reaper*)(*(bag.GetAgent(j))))->SetFitness();
-						((Reaper*)(*(bag.GetAgent(j))))->ProcessBag(BAG_SIZE);
+						bag.GetNeighbourhood(j, neighbourhood);
+						((Reaper*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
 						reapers.push_back((Reaper**)(bag.GetAgent(j)));
 						break;
 					}
@@ -67,7 +78,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				}
 			}
 		}
-
 		int cs = 0, rs = 0;
 
 		for (vector<Cupid*>::const_iterator it = cupids.begin(); it != cupids.end(); ++it)
@@ -75,7 +85,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			(*it)->Select();
 			cs += (*it)->GetSelectedCount();
 		}
-
+	
 		for (vector<Reaper**>::const_iterator it = reapers.begin(); it != reapers.end(); ++it)
 		{
 			(**it)->Select();
@@ -90,12 +100,10 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 		cupids.clear();
 
 		int bred[4] = { 0, 0, 0, 0 };
-
 		while (!cupidsQueue.empty())
 		{
 			while (!cupidsQueue.empty())
 			{
-				std::cout << "werkt" << std::endl;
 				Cupid* c = *(cupidsQueue.end()-1);
 				cupidsQueue.pop_back();
 
@@ -219,7 +227,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			{
 				e++;
 			}
-		
 		}
 
 		random_shuffle(reapers.begin(), reapers.end());

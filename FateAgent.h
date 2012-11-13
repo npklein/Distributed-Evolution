@@ -26,7 +26,7 @@ public:
 	FateAgent(double* genome, int* intGenome);
 	~FateAgent(void);
 
-	virtual void ProcessBag(int bagSize);
+	virtual void ProcessNeighbourhood(vector<Agent**> const& neighbours);
 	virtual void RandomizeGenome(double lowerBound, double upperBound) = 0;
 	double* GetDoubleGenome();
 	int* GetIntGenome();

@@ -1,5 +1,6 @@
 #include "FateAgent.h"
 
+
 FateAgent::FateAgent(void)
 {
 }
@@ -13,7 +14,7 @@ FateAgent::~FateAgent(void)
 {
 }
 
-void FateAgent::ProcessBag(int bagSize)
+void FateAgent::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();
@@ -21,35 +22,35 @@ void FateAgent::ProcessBag(int bagSize)
 	m_reapers.clear();
 
 	double max = -1.0;
-/*
-	for (int i = 0; i < BAG_SIZE; ++i)
+
+	for (size_t i = 0; i < neighbours.size(); ++i)
 	{
-		if ((*(bag.at(i))) != NULL)
+		if ((*(neighbours.at(i))) != NULL)
 		{
-			switch ((*(bag.at(i)))->GetType())
+			switch ((*(neighbours.at(i)))->GetType())
 			{
 				case candidateSolution:
 				{
-					m_candidateSolutions.push_back((CandidateSolution**)bag.at(i));
+					m_candidateSolutions.push_back((CandidateSolution**)neighbours.at(i));
 					if ((*(neighbours.at(i)))->GetFitness() > max)
 					{
-						max = (*(bag.at(i)))->GetFitness();
+						max = (*(neighbours.at(i)))->GetFitness();
 					}
 					break;
 				}
 				case cupid:
 				{
-					m_cupids.push_back((Cupid**)bag.at(i));
+					m_cupids.push_back((Cupid**)neighbours.at(i));
 					break;
 				}
 				case breeder:
 				{
-					m_breeders.push_back((Breeder**)bag.at(i));
+					m_breeders.push_back((Breeder**)neighbours.at(i));
 					break;
 				}
 				case reaper:
 				{
-					m_reapers.push_back((Reaper**)bag.at(i));
+					m_reapers.push_back((Reaper**)neighbours.at(i));
 					break;
 				}
 				default:
@@ -61,7 +62,6 @@ void FateAgent::ProcessBag(int bagSize)
 	}
 
 	m_fitness = max;
- */
 }
 
 double* FateAgent::GetDoubleGenome()

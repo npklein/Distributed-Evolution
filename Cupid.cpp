@@ -1,6 +1,5 @@
 #include "Cupid.h"
 #include "Reaper.h"
-#include "Bag.h"
 #include <algorithm>
 
 
@@ -18,13 +17,7 @@ Cupid::~Cupid(void)
 {
 }
 
-void Cupid::GetFitness()
-{
-	// need to think of a way to determine fitness
-	m_fitness = 1;
-}
-
-void Cupid::ProcessBag(int bagSize)
+void Cupid::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 {
 	m_candidateSolutions.clear();
 	m_cupids.clear();
@@ -33,35 +26,35 @@ void Cupid::ProcessBag(int bagSize)
 	m_emptySpaces.clear();
 
 	double max = -1.0;
-	/*
-	for (int i = 0; i < BAG_SIZE; ++i)
+
+	for (size_t i = 0; i < neighbours.size(); ++i)
 	{
-		if ((*(bag.at(i))) != NULL)
+		if ((*(neighbours.at(i))) != NULL)
 		{
-			switch ((*(bag.at(i)))->GetType())
+			switch ((*(neighbours.at(i)))->GetType())
 			{
 				case candidateSolution:
 				{
-					m_candidateSolutions.push_back((CandidateSolution**)bag.at(i));
+					m_candidateSolutions.push_back((CandidateSolution**)neighbours.at(i));
 					if ((*(neighbours.at(i)))->GetFitness() > max)
 					{
-						max = (*(bag.at(i)))->GetFitness();
+						max = (*(neighbours.at(i)))->GetFitness();
 					}
 					break;
 				}
 				case cupid:
 				{
-					m_cupids.push_back((Cupid**)bag.at(i));
+					m_cupids.push_back((Cupid**)neighbours.at(i));
 					break;
 				}
 				case breeder:
 				{
-					m_breeders.push_back((Breeder**)bag.at(i));
+					m_breeders.push_back((Breeder**)neighbours.at(i));
 					break;
 				}
 				case reaper:
 				{
-					m_reapers.push_back((Reaper**)bag.at(i));
+					m_reapers.push_back((Reaper**)neighbours.at(i));
 					break;
 				}
 				default:
@@ -72,12 +65,11 @@ void Cupid::ProcessBag(int bagSize)
 		}
 		else
 		{
-			m_emptySpaces.push_back(bag.at(i));
+			m_emptySpaces.push_back(neighbours.at(i));
 		}
 	}
-	
+
 	m_fitness = max;
-	 */
 }
 
 template <class T> void Cupid::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)

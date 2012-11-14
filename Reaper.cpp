@@ -55,6 +55,11 @@ template <class T> void Reaper::SelectToList(vector<T**> & selectFrom, vector<T*
 	}
 }
 
+void Reaper::SetFitness(double fitness)
+{
+	m_fitness = fitness;
+}
+
 void Reaper::Select()
 {
 	SelectToList<CandidateSolution>(m_candidateSolutions, m_selectedCandidateSolutions, &Reaper::compareCS, m_selectionProbCandidateSolutions);

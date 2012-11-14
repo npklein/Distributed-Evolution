@@ -34,12 +34,21 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			      << std::endl;
 	*/
 
-	
-	
+	int ca = 0;
+	double sumFitness = 0;
+	double oldAverageFitness = 0;
+	vector<Cupid*> oldCupids;
+	vector<Reaper**> oldReapers;
+	vector<Breeder*> oldBreeders;
+
 	for(int i = 0; i < GENERATION_COUNT; ++i)
 	{
+		if (sumFitness > 0)
+		{
+			oldAverageFitness = sumFitness/ca;
+		}
 		std::cout << i << std::endl;
-
+		
 		cupids.clear();
 		reapers.clear();
 
@@ -53,8 +62,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				{
 					case breeder:
 					{
-						bag.GetNeighbourhood(j, neighbourhood);
-						((Breeder*)(*(bag.GetAgent(j))))->ProcessNeighbourhood(neighbourhood);
 						break;
 					}
 					case cupid:
@@ -105,6 +112,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			while (!cupidsQueue.empty())
 			{
 				Cupid* c = *(cupidsQueue.end()-1);
+				oldCupids.push_back(c);
 				cupidsQueue.pop_back();
 
 				Agent** parents = c->GetParents();
@@ -155,13 +163,13 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 		}
 
 		double fitness = 0;
-		double sumFitness = 0;
+		sumFitness = 0;
 		double cupidGenome[5] = { 0.0, 0.0, 0.0, 0.0, 0.0};
 		double reaperGenome[5] = { 0.0, 0.0, 0.0, 0.0, 0.0};;
 		double breederGenome[3] = { 0.0, 0.0, 0.0 };
-
-		int e = 0, ca = 0, cu = 0, b = 0, r = 0;
-
+		ca = 0;
+		int e = 0, cu = 0, b = 0, r = 0;
+		
 		for (int j = 0; j < BAG_SIZE; ++j)
 		{
 			if ((*(bag.GetAgent(j))) != NULL)
@@ -190,7 +198,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 						{
 							cupidGenome[l] += genome[l];
 						}
-
 						break;
 					}
 				case breeder:
@@ -228,7 +235,14 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				e++;
 			}
 		}
-
+		double averageFitness = sumFitness/ca;
+		while (!oldCupids.empty())
+		{
+			Cupid* c = *(oldCupids.end()-1);
+			oldCupids.pop_back();
+			(*c).SetFitness(averageFitness-oldAverageFitness);
+		}
+			
 		random_shuffle(reapers.begin(), reapers.end());
 		reapersQueue.clear();
 		copy(reapers.begin(), reapers.end(), back_inserter(reapersQueue));
@@ -241,6 +255,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			while (!reapersQueue.empty())
 			{
 				Reaper** r = *(reapersQueue.end()-1);
+				oldReapers.push_back(r);
 				reapersQueue.pop_back();
 
 				if (*r == NULL)
@@ -293,6 +308,17 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 			copy(reapers.begin(), reapers.end(), back_inserter(reapersQueue));
 			reapers.clear();
 		}
+		
+
+		while (!oldReapers.empty())
+		{
+			Reaper** r = *(oldReapers.end()-1);
+			oldReapers.pop_back();
+			if (*r != NULL)
+			{
+				(**r).SetFitness(averageFitness-oldAverageFitness);
+			}
+		}
 
 		outputFile << fitness << " \t " << sumFitness / ca << " \t " << e << " \t " << ca << " \t " << cu << " \t " << b << " \t "  << r << " \t ";
  
@@ -326,7 +352,7 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				outputFile << breederGenome[l] / b;
 			}
 		}
-
+		std::cout << "-----------------" << std::endl;
 		outputFile << std::endl;
 		outputFile.flush();
 

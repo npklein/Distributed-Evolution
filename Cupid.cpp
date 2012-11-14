@@ -25,7 +25,6 @@ void Cupid::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 	m_reapers.clear();
 	m_emptySpaces.clear();
 
-	double max = -1.0;
 
 	for (size_t i = 0; i < neighbours.size(); ++i)
 	{
@@ -36,10 +35,6 @@ void Cupid::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 				case candidateSolution:
 				{
 					m_candidateSolutions.push_back((CandidateSolution**)neighbours.at(i));
-					if ((*(neighbours.at(i)))->GetFitness() > max)
-					{
-						max = (*(neighbours.at(i)))->GetFitness();
-					}
 					break;
 				}
 				case cupid:
@@ -68,8 +63,11 @@ void Cupid::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 			m_emptySpaces.push_back(neighbours.at(i));
 		}
 	}
+}
 
-	m_fitness = max;
+void Cupid::SetFitness(double averageFitness)
+{
+	m_fitness = averageFitness;
 }
 
 template <class T> void Cupid::SelectToList(vector<T**> & selectFrom, vector<T**> & selectTo, bool(*compare)(T**, T**), double probability)

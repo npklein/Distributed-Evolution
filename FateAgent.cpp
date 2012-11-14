@@ -21,7 +21,6 @@ void FateAgent::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 	m_breeders.clear();
 	m_reapers.clear();
 
-	double max = -1.0;
 
 	for (size_t i = 0; i < neighbours.size(); ++i)
 	{
@@ -32,10 +31,6 @@ void FateAgent::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 				case candidateSolution:
 				{
 					m_candidateSolutions.push_back((CandidateSolution**)neighbours.at(i));
-					if ((*(neighbours.at(i)))->GetFitness() > max)
-					{
-						max = (*(neighbours.at(i)))->GetFitness();
-					}
 					break;
 				}
 				case cupid:
@@ -60,9 +55,13 @@ void FateAgent::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 			}
 		}
 	}
-
-	m_fitness = max;
 }
+
+void FateAgent::SetFitness(double averageFitness)
+{
+	m_fitness = averageFitness;
+}
+
 
 double* FateAgent::GetDoubleGenome()
 {

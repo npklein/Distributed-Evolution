@@ -63,20 +63,6 @@ Breeder::~Breeder(void)
 {
 }
 
-void Breeder::ProcessNeighbourhood(vector<Agent**> const& neighbourhood)
-{
-	double max = -1.0;
-
-	for (size_t i = 0; i < neighbourhood.size(); ++i)
-	{
-		if ((*(neighbourhood.at(i))) != NULL && (*(neighbourhood.at(i)))->GetType() == candidateSolution && (*(neighbourhood.at(i)))->GetFitness() > max)
-		{
-			max = (*(neighbourhood.at(i)))->GetFitness();
-		}
-	}
-
-	m_fitness = max;
-}
 
 double * Breeder::GetGenome()
 {

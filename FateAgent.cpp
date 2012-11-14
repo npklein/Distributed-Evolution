@@ -1,5 +1,5 @@
 #include "FateAgent.h"
-
+//#include <iostream>
 
 FateAgent::FateAgent(void)
 {
@@ -60,18 +60,21 @@ void FateAgent::ProcessNeighbourhood(vector<Agent**> const& neighbours)
 			}
 		}
 	}
-
+//	std::cout << "CandSol " << m_candidateSolutions.size() << " Cupids " << m_cupids.size() << " Breeders " << m_breeders.size() << " REapers " << m_reapers.size() << std::endl;
 	m_fitness = max;
 }
 
 double* FateAgent::GetDoubleGenome()
 {
-	double* genome = new double[4];
+	double* genome = new double[4 + PROBLEM_DIMENSION];
 
 	genome[0] = m_selectionProbBreeders;
 	genome[1] = m_selectionProbCandidateSolutions;
 	genome[2] = m_selectionProbCupids;
 	genome[3] = m_selectionProbReapers;
+
+	for(int i = 0; i < PROBLEM_DIMENSION; i++)
+		genome[4+i] = m_coordinates[i];
 
 	return genome;
 }
@@ -83,6 +86,9 @@ void FateAgent::SetGenome( double* genome, int * intGenome )
 	m_selectionProbCupids = genome[2];
 	m_selectionProbReapers = genome[3];
 	m_tournamentSize = intGenome[0];
+
+	for(int i = 0; i < PROBLEM_DIMENSION; i++)
+		m_coordinates[i] = genome[4+i];
 }
 
 int* FateAgent::GetIntGenome()
@@ -94,13 +100,16 @@ int* FateAgent::GetIntGenome()
 	return genome;
 }
 
-void FateAgent::GetGenome( double outputArray[5] )
+void FateAgent::GetGenome( double outputArray[5+PROBLEM_DIMENSION] )
 {
 	outputArray[0] = m_selectionProbBreeders;
 	outputArray[1] = m_selectionProbCandidateSolutions;
 	outputArray[2] = m_selectionProbCupids;
 	outputArray[3] = m_selectionProbReapers;
 	outputArray[4] = m_tournamentSize;
+
+	for(int i = 0; i < PROBLEM_DIMENSION; i++)
+		outputArray[5+i] = m_coordinates[i];
 }
 
 int FateAgent::GetSelectedCount()

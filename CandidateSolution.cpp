@@ -1,42 +1,41 @@
 #include "CandidateSolution.h"
-//#include <random>
 #include "fitness.h"
 
 
 CandidateSolution::CandidateSolution(void)
 {
-	m_genome = new double[PROBLEM_DIMENSION];
+//	m_coordinates = new double[PROBLEM_DIMENSION];
 	m_type = candidateSolution;
 }
 
 CandidateSolution::CandidateSolution(double * genome)
 {
-	m_genome = new double[PROBLEM_DIMENSION];
+//	m_coordinates = new double[PROBLEM_DIMENSION];
 	m_type = candidateSolution;
 
 	for (int i = 0; i < PROBLEM_DIMENSION; ++i)
 	{
-		m_genome[i] = genome[i];
+		m_coordinates[i] = genome[i];
 	}
 
-	m_fitness = fitnessFunction(m_genome);
+	m_fitness = fitnessFunction(m_coordinates);
 }
 
 CandidateSolution::~CandidateSolution(void)
 {
-	delete [] m_genome;
+//	delete [] m_coordinates;
 }
 
 void CandidateSolution::RandomizeGenome(double lowerBound, double upperBound)
 {
 	for (int i = 0;  i < PROBLEM_DIMENSION; ++i)
 	{
-		m_genome[i] = randomGene(lowerBound, upperBound);
+		m_coordinates[i] = randomGene(lowerBound, upperBound);
 	}
-	m_fitness = fitnessFunction(m_genome);
+	m_fitness = fitnessFunction(m_coordinates);
 }
 
-double * CandidateSolution::GetGenome()
-{
-	return m_genome;
-}
+//double * CandidateSolution::GetGenome()
+//{
+//	return m_genome;
+//}

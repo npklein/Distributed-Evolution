@@ -49,6 +49,8 @@ Breeder::Breeder(void)
 	m_fateMutationSize = -1.0;
 	m_tournamentMutationSize = -1.0;
 	m_type = breeder;
+//	m_coordinates = new double[PROBLEM_DIMENSION];
+
 }
 
 Breeder::Breeder( double * genome )
@@ -57,6 +59,10 @@ Breeder::Breeder( double * genome )
 	m_fateMutationSize = genome[1];
 	m_tournamentMutationSize = genome[2];
 	m_type = breeder;
+
+//	m_coordinates = new double[PROBLEM_DIMENSION];
+	for(int i = 0; i < PROBLEM_DIMENSION; i++)
+		m_coordinates[i] = genome[i+2];
 }
 
 Breeder::~Breeder(void)
@@ -80,26 +86,36 @@ void Breeder::ProcessNeighbourhood(vector<Agent**> const& neighbourhood)
 
 double * Breeder::GetGenome()
 {
-	double * genome = new double[3];
+	double * genome = new double[3+PROBLEM_DIMENSION];
 
 	genome[0] = m_candidateSolutionMutationSize;
 	genome[1] = m_fateMutationSize;
 	genome[2] = m_tournamentMutationSize;
 
+	for(int i = 0; i < PROBLEM_DIMENSION; i++)
+		genome[3+i] = m_coordinates[i];
+
 	return genome;
 }
 
-void Breeder::GetGenome( double outputArray[3] )
+void Breeder::GetGenome( double outputArray[3+PROBLEM_DIMENSION] )
 {
 	outputArray[0] = m_candidateSolutionMutationSize;
 	outputArray[1] = m_fateMutationSize;
 	outputArray[2] = m_tournamentMutationSize;
+
+	for(int i = 0; i < PROBLEM_DIMENSION; i++)
+		outputArray[3+i] = m_coordinates[i];
 }
 void Breeder::RandomizeGenome(double upperBound, double lowerBound)
 {
 	m_candidateSolutionMutationSize = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_CS_MUTATION_SIZE;
 	m_fateMutationSize = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_FATE_MUTATION_SIZE;
 	m_tournamentMutationSize = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_TOURNAMENT_MUTATION_SIZE;
+
+	for(int i = 0; i < PROBLEM_DIMENSION; ++i){
+		m_coordinates[i] = randomGene(lowerBound, upperBound);
+	}
 }
 
 void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, double upperBound )
@@ -110,11 +126,10 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 		{
 			double * newGenome = new double[PROBLEM_DIMENSION];
 
-			DoUniformCrossover(((CandidateSolution*)parents[0])->GetGenome(), ((CandidateSolution*)parents[1])->GetGenome(), PROBLEM_DIMENSION, newGenome, 1.0);
+			DoUniformCrossover(((CandidateSolution*)parents[0])->GetCoordinates(), ((CandidateSolution*)parents[1])->GetCoordinates(), PROBLEM_DIMENSION, newGenome, 1.0);
 			DoNonUniformMutation(newGenome, PROBLEM_DIMENSION, CS_MUTATION_RATE, m_candidateSolutionMutationSize, lowerBound, upperBound);
 			
 			*emptyPlace = new CandidateSolution(newGenome);
-			
 			delete [] newGenome;
 
 			break;
@@ -124,7 +139,7 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 			int * newIntGenome = new int[1];
 			double * newDoubleGenome = ((Cupid*)parents[0])->GetDoubleGenome();
 
-			DoNonUniformMutation(newDoubleGenome, 4, FATE_MUTATION_RATE, m_fateMutationSize, 0.0, 1.0);
+			DoNonUniformMutation(newDoubleGenome, 4+PROBLEM_DIMENSION, FATE_MUTATION_RATE, m_fateMutationSize, 0.0, 1.0);
 
 			int* iga = ((Cupid*)parents[0])->GetIntGenome();
 			int* igb = ((Cupid*)parents[1])->GetIntGenome();
@@ -133,7 +148,6 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 			DoGaussianMutation(newIntGenome, 1, FATE_MUTATION_RATE, m_tournamentMutationSize, 1, MAX_TOURNAMENT_SIZE);
 
 			*emptyPlace = new Cupid(newDoubleGenome, newIntGenome);
-
 			delete [] newIntGenome;
 			delete [] newDoubleGenome;
 			delete [] iga;
@@ -146,7 +160,7 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 			int * newIntGenome = new int[1];
 			double * newDoubleGenome = ((Reaper*)parents[0])->GetDoubleGenome();
 
-			DoNonUniformMutation(newDoubleGenome, 4, FATE_MUTATION_RATE, m_fateMutationSize, 0.0, 1.0);
+			DoNonUniformMutation(newDoubleGenome, 4+PROBLEM_DIMENSION, FATE_MUTATION_RATE, m_fateMutationSize, 0.0, 1.0);
 
 			int* iga = ((Reaper*)parents[0])->GetIntGenome();
 			int* igb = ((Reaper*)parents[1])->GetIntGenome();
@@ -155,7 +169,7 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 			DoGaussianMutation(newIntGenome, 1, FATE_MUTATION_RATE, m_tournamentMutationSize, 1, MAX_TOURNAMENT_SIZE);
 
 			*emptyPlace = new Reaper(newDoubleGenome, newIntGenome);
-
+//			Reaper * r = new Reaper(newDoubleGenome, newIntGenome);
 			delete [] newIntGenome;
 			delete [] newDoubleGenome;
 			delete [] iga;
@@ -166,10 +180,9 @@ void Breeder::Breed( Agent** parents, Agent** emptyPlace, double lowerBound, dou
 	case breeder:
 		{
 			double * newGenome = ((Breeder*)parents[0])->GetGenome();
-			DoESLikeMutation(newGenome, 3, BREEDER_LEARNING_RATE);
+			DoESLikeMutation(newGenome, 3 + PROBLEM_DIMENSION, BREEDER_LEARNING_RATE);
 
 			*emptyPlace = new Breeder(newGenome);
-
 			delete [] newGenome;
 
 			break;

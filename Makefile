@@ -9,7 +9,7 @@ SRC1 = Agent.cpp Breeder.cpp CandidateSolution.cpp \
     benchmarks.cpp \
     benchmarkshelper.cpp benchmarksnoisy.cpp benchmarksdeclare.cpp
 
-SRC2 = main.cpp fgeneric.cpp  dirOK.cpp #benchmars.cpp benchmarksdeclare.cpp
+SRC2 = genospace.cpp fgeneric.cpp  dirOK.cpp #benchmars.cpp benchmarksdeclare.cpp
 
 SRC  = $(SRC1) $(SRC2)
 OBJS = $(subst .cpp,.o, $(SRC))
@@ -17,11 +17,11 @@ OBJS = $(subst .cpp,.o, $(SRC))
 AUX = $(subst .cpp,.h, $(SRC1)) bbobStructures.h benchmarks.h
 
 
-main: $(OBJS)
+genospace: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJS): $(SRC) $(AUX)
 	$(CC) $(CFLAGS) -c  $(SRC)
 .PHONY: clean
 clean:
-	rm -f *.o main
+	rm -f *.o genospace

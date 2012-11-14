@@ -91,14 +91,14 @@ double FPGetValue(double * genome)
 			Ai += A[i][j] * std::sin(a[j]) + B[i][j] * std::cos(a[j]);
 			Bi += A[i][j] * std::sin(genome[j]) + B[i][j] * std::cos(genome[j]);
 		}
-		std::cout << std::pow(Ai-Bi, 2) << std::endl;
+//		std::cout << std::pow(Ai-Bi, 2) << std::endl;
 		sum += std::pow(Ai-Bi, 2);
 	}
 
 	return sum;
 }
 
-void initializeFitness(int FUNCTION_ID, double lowerBound, double upperBound)
+void initializeFitness(int FUNCTION_ID)
 {
 	if (FUNCTION_ID == 0)
 	{

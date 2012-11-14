@@ -15,10 +15,13 @@ public:
 	void IncreaseAge();
 	AgentType GetType();
 	virtual void RandomizeGenome(double lowerBound, double upperBound) = 0;
+	double* GetCoordinates();
 
 protected:
 	double m_fitness;
 	AgentType m_type;
+	double *m_coordinates;
+
 private:
 	int m_age;
 };

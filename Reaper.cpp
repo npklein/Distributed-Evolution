@@ -1,16 +1,19 @@
 #include "Reaper.h"
 #include "Cupid.h"
 #include <algorithm>
-
+#include "fitness.h"
 
 Reaper::Reaper(void)
 {
 	m_type = reaper;
+//	m_coordinates = new double[PROBLEM_DIMENSION];
 }
 
 Reaper::Reaper( double* genome, int* intGenome ) : FateAgent(genome, intGenome)
 {
 	m_type = reaper;
+//	m_coordinates = new double[PROBLEM_DIMENSION];
+
 }
 
 Reaper::~Reaper(void)
@@ -28,7 +31,7 @@ template <class T> void Reaper::SelectToList(vector<T**> & selectFrom, vector<T*
 	{
 		selectedForTournament.push_back(NULL);
 	}
-		
+
 	int count = selectFrom.size();
 	for (int i = 0; i < count; ++i)
 	{
@@ -38,9 +41,9 @@ template <class T> void Reaper::SelectToList(vector<T**> & selectFrom, vector<T*
 			{
 				selectedForTournament.at(j) = selectFrom.at((int)((double)rand() / (RAND_MAX + 1.0) * (double)selectFrom.size()));
 			}
-				
+
 			sort(selectedForTournament.begin(), selectedForTournament.end(), compare);
-				
+
 			selectTo.push_back(selectedForTournament.at(0));
 
 			for (typename vector<T**>::iterator it = selectFrom.begin(); it != selectFrom.end(); ++it)
@@ -90,6 +93,10 @@ void Reaper::RandomizeGenome(double lowerBound, double upperBound)
 	m_selectionProbBreeders = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_REAPER;
 	m_selectionProbReapers = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_REAPER;
 	m_tournamentSize = (int)((double)rand() / (RAND_MAX + 1.0) * (double)MAX_TOURNAMENT_SIZE) + 1;
+
+	for(int i = 0; i < PROBLEM_DIMENSION; ++i){
+		m_coordinates[i] = randomGene(lowerBound, upperBound);
+	}
 }
 
 Agent** Reaper::GetAgentToKill()

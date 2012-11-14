@@ -1,16 +1,20 @@
 #include "Cupid.h"
 #include "Reaper.h"
 #include <algorithm>
-
+#include "fitness.h"
+//#include <iostream>
 
 Cupid::Cupid(void)
 {
 	m_type = cupid;
+//	m_coordinates = new double[PROBLEM_DIMENSION];
 }
 
 Cupid::Cupid( double* genome, int* intGenome ) : FateAgent(genome, intGenome)
 {
 	m_type = cupid;
+//	m_coordinates = new double[PROBLEM_DIMENSION];
+
 }
 
 Cupid::~Cupid(void)
@@ -128,6 +132,9 @@ bool Cupid::compareReapers(Reaper** left, Reaper** right)
 
 void Cupid::Select()
 {
+
+//	std::cout << "CandSol " << m_candidateSolutions.size() << "Selected " << m_selectedCandidateSolutions.size() << std::endl;
+
 	SelectToList<CandidateSolution>(m_candidateSolutions, m_selectedCandidateSolutions, &Cupid::compareCS, m_selectionProbCandidateSolutions);
 	SelectToList<Cupid>(m_cupids, m_selectedCupids, &Cupid::compareCupids, m_selectionProbCupids);
 	SelectToList<Breeder>(m_breeders, m_selectedBreeders, &Cupid::compareBreeders, m_selectionProbBreeders);
@@ -141,6 +148,11 @@ void Cupid::RandomizeGenome(double lowerBound, double upperBound)
 	m_selectionProbBreeders = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_CUPID;
 	m_selectionProbReapers = (double)rand() / (RAND_MAX + 1.0) * MAX_INITIAL_SELECTION_PROBABILITIES_CUPID;
 	m_tournamentSize = (int)((double)rand() / (RAND_MAX + 1.0) * (double)MAX_TOURNAMENT_SIZE) + 1;
+
+	for(int i = 0; i < PROBLEM_DIMENSION; ++i){
+		m_coordinates[i] = randomGene(lowerBound, upperBound);
+	}
+
 }
 
 Agent** Cupid::GetParents()

@@ -13,10 +13,10 @@ public:
 	CandidateSolution(double * genome);
 	~CandidateSolution(void);
 	virtual void RandomizeGenome(double lowerBound, double upperBound);
-	double * GetGenome();
+//	double * GetGenome();
 
 private:
-	double * m_genome;
+//	double * m_genome;
 };
 
 #endif // !CANDIDATE_SOLUTION_H

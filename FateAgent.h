@@ -6,6 +6,7 @@
 #include "Agent.h"
 #include "Breeder.h"
 #include "CandidateSolution.h"
+#include "fitness.h"
 #include <vector>
 
 class Cupid;
@@ -30,9 +31,9 @@ public:
 	virtual void RandomizeGenome(double lowerBound, double upperBound) = 0;
 	double* GetDoubleGenome();
 	int* GetIntGenome();
-	void GetGenome(double outputArray[5]);
+	void GetGenome(double outputArray[5+PROBLEM_DIMENSION]);
 	int GetSelectedCount();
-	
+
 
 protected:
 	vector<Breeder**> m_breeders;

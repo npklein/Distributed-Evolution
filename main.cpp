@@ -352,7 +352,6 @@ void runEvolution(int FUNCION_ID, double lowerBound, double upperBound)
 				outputFile << breederGenome[l] / b;
 			}
 		}
-		std::cout << "-----------------" << std::endl;
 		outputFile << std::endl;
 		outputFile.flush();
 

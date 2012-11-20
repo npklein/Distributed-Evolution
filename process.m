@@ -1,8 +1,8 @@
 scrsz = get(0,'ScreenSize');
 
-fid = fopen('log.txt');
+fid = fopen('log_average.txt');
 
-data = fscanf(fid, '%f %f %d %d %d %d %d %d %d %d %d %d %d %d %d %f %f %f %f %f %f %f %f %f %f %f %f %f', [28, Inf]);
+data = fscanf(fid, '%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f', [28, Inf]);
 
 fclose(fid);
 

@@ -12,8 +12,8 @@
 using namespace std;
 
 const int GRID_SIZE = 125;
-const int AGENT_RANGE = 5;
-const int AGENT_ACTION_RADIUS = 5;
+const int AGENT_RANGE = 11;
+const int AGENT_ACTION_RADIUS = 11;
 const double edgeSwapProbability = 0.5;
 const double spawnBreederProbability = 0.0625;
 const double spawnCupidProbability = 0.0625;

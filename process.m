@@ -27,6 +27,19 @@ plot(data(7,:), 'x');
 legend('Empty', 'Breeders', 'CS', 'Cupids', 'Reapers');
 hold off;
 
+%% Grid status stacked area
+figure('OuterPosition',[scrsz(3)/20 scrsz(4)/20 scrsz(3)*0.9 scrsz(4)*0.9], 'Name', 'Evolution activity');
+set (gca, 'position', [0.1 0.1 0.7 0.8])
+hold on;
+gridStatusMatrix = [data(3,:); data(6,:); data(4,:); data(5,:); data(7,:)]';
+area(gridStatusMatrix)
+grid on
+colormap summer
+set(gca,'Layer','top')
+title 'Stacked Area Plot'
+legend('CS killed', 'CUPID killed', 'REAPER killed', 'Breeders killed', 'CS created', 'CUPID created', 'REAPER created', 'Breeders created', 'Location', 'EastOutside');
+hold off;
+
 %% evolution activity
 figure('OuterPosition',[scrsz(3)/20 scrsz(4)/20 scrsz(3)*0.9 scrsz(4)*0.9], 'Name', 'Evolution activity');
 set (gca, 'position', [0.1 0.1 0.7 0.8])
@@ -41,6 +54,8 @@ plot(data(11,:), 'd');
 plot(data(10,:), '^');
 legend('CS killed', 'CUPID killed', 'REAPER killed', 'Breeders killed', 'CS created', 'CUPID created', 'REAPER created', 'Breeders created', 'Location', 'EastOutside');
 hold off;
+
+
 
 %% Action probabilities averages
 figure('OuterPosition',[scrsz(3)/20 scrsz(4)/20 scrsz(3)*0.9 scrsz(4)*0.9], 'Name', 'Action probability');

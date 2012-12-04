@@ -1,6 +1,6 @@
 scrsz = get(0,'ScreenSize');
 
-fid = fopen('log_average.txt');
+fid = fopen('~/Desktop/3D_results/log_average.txt');
 
 data = fscanf(fid, '%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f', [28, Inf]);
 
@@ -11,7 +11,7 @@ fclose(fid);
 figure('OuterPosition',[scrsz(3)/20 scrsz(4)/20 scrsz(3)*0.9 scrsz(4)*0.9], 'Name', 'Fitness');
 hold on;
 plot(data(1,:), '+');
-plot(data(2,:), 'o');
+plot(data(2,:), 's');
 legend('Max fitness', 'Average fitness');
 title('Candidate solutions fitness');
 hold off;
@@ -37,7 +37,7 @@ grid on
 colormap summer
 set(gca,'Layer','top')
 title 'Stacked Area Plot'
-legend('CS killed', 'CUPID killed', 'REAPER killed', 'Breeders killed', 'CS created', 'CUPID created', 'REAPER created', 'Breeders created', 'Location', 'EastOutside');
+legend('Empty', 'Breeders', 'CS', 'Cupids', 'Reapers');
 hold off;
 
 %% evolution activity
